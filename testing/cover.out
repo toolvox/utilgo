@@ -1,0 +1,14 @@
+mode: set
+utilgo/pkg/stringutils/string.go:8.33,10.2 1 1
+utilgo/pkg/stringutils/string.go:13.27,15.2 1 1
+utilgo/pkg/stringutils/string.go:19.32,21.2 1 1
+utilgo/pkg/stringutils/string.go:25.31,27.2 1 1
+utilgo/pkg/stringutils/string.go:31.48,34.2 2 1
+utilgo/pkg/stringutils/string.go:38.44,40.2 1 1
+utilgo/pkg/stringutils/stringutils.go:8.59,9.14 1 1
+utilgo/pkg/stringutils/stringutils.go:9.14,11.3 1 1
+utilgo/pkg/stringutils/stringutils.go:12.2,12.31 1 1
+utilgo/pkg/stringutils/stringutils.go:12.31,14.3 1 1
+utilgo/pkg/stringutils/stringutils.go:15.2,15.16 1 1
+utilgo/pkg/stringutils/stringutils.go:15.16,17.3 1 1
+utilgo/pkg/stringutils/stringutils.go:18.2,18.23 1 1
