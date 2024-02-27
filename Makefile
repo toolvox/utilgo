@@ -1,11 +1,15 @@
 .SILENT:
-.PHONY: godoc cover count install install.codump
+.PHONY: godoc diff cover count install install.codump
 
 godoc:
 	start "http://localhost:6060" ; \
 	godoc -http=:6060 -play -index 
 
 COVERFILE = testing/cover.out
+
+diff:
+	(git diff --cached | tee diff) | clip ; \
+	echo "diff saved to 'diff' file and clipboard"
 
 cover:
 	go test ./... -coverprofile=testing/cover.out ; \
