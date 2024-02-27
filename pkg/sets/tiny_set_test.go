@@ -18,43 +18,43 @@ func TestTinySet(t *testing.T) {
 		expectedThree [3]sets.TinySet[int]
 	}{
 		{
-			name:        "Union with Set",
-			operation:   "SetUnion",
-			set1:        sets.NewTinySet(1, 2),
-			set2:        sets.NewTinySet(2, 3),
-			expected:    sets.NewTinySet(1, 2, 3),
+			name:      "UnionWith with Set",
+			operation: "Union",
+			set1:      sets.NewTinySet(1, 2),
+			set2:      sets.NewTinySet(2, 3),
+			expected:  sets.NewTinySet(1, 2, 3),
 		},
 		{
-			name:        "Union with Elements",
-			operation:   "Union",
+			name:        "UnionWith with Elements",
+			operation:   "UnionWith",
 			set1:        sets.NewTinySet(1, 2),
 			addElements: []int{3, 2},
 			expected:    sets.NewTinySet(1, 2, 3),
 		},
 		{
-			name:        "Intersection with Set",
-			operation:   "SetIntersection",
-			set1:        sets.NewTinySet(1, 2),
-			set2:        sets.NewTinySet(2, 3),
-			expected:    sets.NewTinySet(2),
+			name:      "IntersectionWith with Set",
+			operation: "Intersection",
+			set1:      sets.NewTinySet(1, 2),
+			set2:      sets.NewTinySet(2, 3),
+			expected:  sets.NewTinySet(2),
 		},
 		{
-			name:        "Intersection with Elements",
-			operation:   "Intersection",
+			name:        "IntersectionWith with Elements",
+			operation:   "IntersectionWith",
 			set1:        sets.NewTinySet(1, 2),
 			addElements: []int{2, 3},
 			expected:    sets.NewTinySet(2),
 		},
 		{
-			name:        "Difference with Set",
-			operation:   "SetDifference",
-			set1:        sets.NewTinySet(1, 2),
-			set2:        sets.NewTinySet(2, 3),
-			expected:    sets.NewTinySet(1),
+			name:      "DifferenceWith with Set",
+			operation: "Difference",
+			set1:      sets.NewTinySet(1, 2),
+			set2:      sets.NewTinySet(2, 3),
+			expected:  sets.NewTinySet(1),
 		},
 		{
-			name:        "Difference with Elements",
-			operation:   "Difference",
+			name:        "DifferenceWith with Elements",
+			operation:   "DifferenceWith",
 			set1:        sets.NewTinySet(1, 2),
 			addElements: []int{2, 3},
 			expected:    sets.NewTinySet(1),
@@ -78,10 +78,10 @@ func TestTinySet(t *testing.T) {
 			expected:    true,
 		},
 		{
-			name:        "String representation",
-			operation:   "String",
-			set1:        sets.NewTinySet(1, 2, 3),
-			expected:    "{1, 2, 3}",
+			name:      "String representation",
+			operation: "String",
+			set1:      sets.NewTinySet(1, 2, 3),
+			expected:  "{1, 2, 3}",
 		},
 	}
 
@@ -90,18 +90,18 @@ func TestTinySet(t *testing.T) {
 			var result interface{}
 
 			switch tc.operation {
-			case "SetUnion":
-				result = tc.set1.SetUnion(tc.set2)
 			case "Union":
-				result = tc.set1.Union(tc.addElements...)
-			case "SetIntersection":
-				result = tc.set1.SetIntersection(tc.set2)
+				result = tc.set1.Union(tc.set2)
+			case "UnionWith":
+				result = tc.set1.UnionWith(tc.addElements...)
 			case "Intersection":
-				result = tc.set1.Intersection(tc.addElements...)
-			case "SetDifference":
-				result = tc.set1.SetDifference(tc.set2)
+				result = tc.set1.Intersection(tc.set2)
+			case "IntersectionWith":
+				result = tc.set1.IntersectionWith(tc.addElements...)
 			case "Difference":
-				result = tc.set1.Difference(tc.addElements...)
+				result = tc.set1.Difference(tc.set2)
+			case "DifferenceWith":
+				result = tc.set1.DifferenceWith(tc.addElements...)
 			case "ThreeWay":
 				result = tc.set1.ThreeWay(tc.set2)
 				if !reflect.DeepEqual(result, tc.expectedThree) {

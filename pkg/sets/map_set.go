@@ -16,7 +16,7 @@ type Unit = api.Unit
 var U = api.U
 
 // Set represents a set of elements of type T.
-type Set[T comparable] map[T]Unit
+type Set[TCmp comparable] map[TCmp]Unit
 
 // NewSet initializes a new Set with the provided elements.
 func NewSet[T comparable](elements ...T) Set[T] {
@@ -40,16 +40,16 @@ func (s Set[T]) Contains(element T) bool {
 	return ok
 }
 
-// SetUnion combines two sets into a new one containing elements from both.
-func (s Set[T]) SetUnion(other Set[T]) Set[T] {
+// Union combines two sets into a new one containing elements from both.
+func (s Set[T]) Union(other Set[T]) Set[T] {
 	result := make(Set[T], max(len(s), len(other)))
 	maps.Copy(result, s)
 	maps.Copy(result, other)
 	return result
 }
 
-// Union adds multiple elements to the set and returns the resulting set.
-func (s Set[T]) Union(elements ...T) Set[T] {
+// UnionWith adds multiple elements to the set and returns the resulting set.
+func (s Set[T]) UnionWith(elements ...T) Set[T] {
 	result := make(Set[T], max(len(s), len(elements)))
 	maps.Copy(result, s)
 	for _, e := range elements {
@@ -58,8 +58,8 @@ func (s Set[T]) Union(elements ...T) Set[T] {
 	return result
 }
 
-// SetIntersection creates a set of elements common to both sets.
-func (s Set[T]) SetIntersection(other Set[T]) Set[T] {
+// Intersection creates a set of elements common to both sets.
+func (s Set[T]) Intersection(other Set[T]) Set[T] {
 	result := make(Set[T], min(len(s), len(other)))
 	for k := range s {
 		if _, ok := other[k]; ok {
@@ -69,8 +69,8 @@ func (s Set[T]) SetIntersection(other Set[T]) Set[T] {
 	return result
 }
 
-// Intersection forms a set from common elements of the set and the provided elements.
-func (s Set[T]) Intersection(elements ...T) Set[T] {
+// IntersectionWith forms a set from common elements of the set and the provided elements.
+func (s Set[T]) IntersectionWith(elements ...T) Set[T] {
 	result := make(Set[T], min(len(s), len(elements)))
 	for _, k := range elements {
 		if _, ok := s[k]; ok {
@@ -80,8 +80,8 @@ func (s Set[T]) Intersection(elements ...T) Set[T] {
 	return result
 }
 
-// SetDifference creates a set of elements in the first set but not in the second.
-func (s Set[T]) SetDifference(other Set[T]) Set[T] {
+// Difference creates a set of elements in the first set but not in the second.
+func (s Set[T]) Difference(other Set[T]) Set[T] {
 	result := maps.Clone(s)
 	for k := range other {
 		delete(result, k)
@@ -89,8 +89,8 @@ func (s Set[T]) SetDifference(other Set[T]) Set[T] {
 	return result
 }
 
-// Difference removes specified elements from the set.
-func (s Set[T]) Difference(elements ...T) Set[T] {
+// DifferenceWith removes specified elements from the set.
+func (s Set[T]) DifferenceWith(elements ...T) Set[T] {
 	result := maps.Clone(s)
 	for _, k := range elements {
 		delete(result, k)

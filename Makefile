@@ -12,7 +12,7 @@ diff:
 	echo "diff saved to 'diff' file and clipboard"
 
 dump:
-	codump -path . -out dump -exts .go
+	codump -root . -out dump -exts .go
 
 cover:
 	go test ./... -coverprofile=testing/cover.out ; \

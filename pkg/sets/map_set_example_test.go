@@ -19,17 +19,17 @@ func ExampleSet() {
 	// Create another set
 	other := sets.NewSet(3, 4, 5)
 
-	// Union of s and other
-	union := s.SetUnion(other)
-	fmt.Println("Union:", union)
+	// UnionWith of s and other
+	UnionWith := s.Union(other)
+	fmt.Println("UnionWith:", UnionWith)
 
-	// Intersection of s and other
-	intersection := s.SetIntersection(other)
-	fmt.Println("Intersection:", intersection)
+	// IntersectionWith of s and other
+	IntersectionWith := s.Intersection(other)
+	fmt.Println("IntersectionWith:", IntersectionWith)
 
-	// Difference of s and other
-	difference := s.SetDifference(other)
-	fmt.Println("Difference:", difference)
+	// DifferenceWith of s and other
+	DifferenceWith := s.Difference(other)
+	fmt.Println("DifferenceWith:", DifferenceWith)
 
 	// Check if an element is in the set
 	fmt.Println("Contains 3:", s.Contains(3))
@@ -37,9 +37,9 @@ func ExampleSet() {
 
 	// Output:
 	// Set: { 1, 2, 3, 4 }
-	// Union: { 1, 2, 3, 4, 5 }
-	// Intersection: { 3, 4 }
-	// Difference: { 1, 2 }
+	// UnionWith: { 1, 2, 3, 4, 5 }
+	// IntersectionWith: { 3, 4 }
+	// DifferenceWith: { 1, 2 }
 	// Contains 3: true
 	// Contains 6: false
 }

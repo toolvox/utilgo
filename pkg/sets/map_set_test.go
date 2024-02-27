@@ -21,54 +21,54 @@ func TestAdd(t *testing.T) {
 	}
 }
 
-func TestSetUnion(t *testing.T) {
+func TestUnion(t *testing.T) {
 	s1 := sets.NewSet(1, 2)
 	s2 := sets.NewSet(2, 3)
-	union := s1.SetUnion(s2)
-	if len(union) != 3 || !union.Contains(1) || !union.Contains(2) || !union.Contains(3) {
-		t.Errorf("Union does not contain the correct elements")
+	UnionWith := s1.Union(s2)
+	if len(UnionWith) != 3 || !UnionWith.Contains(1) || !UnionWith.Contains(2) || !UnionWith.Contains(3) {
+		t.Errorf("UnionWith does not contain the correct elements")
 	}
 }
 
-func TestUnion(t *testing.T) {
+func TestUnionWith(t *testing.T) {
 	s := sets.NewSet(1, 2)
-	union := s.Union(3, 4)
-	if len(union) != 4 || !union.Contains(1) || !union.Contains(4) {
-		t.Errorf("Union does not contain the correct elements")
-	}
-}
-
-func TestSetIntersection(t *testing.T) {
-	s1 := sets.NewSet(1, 2, 3)
-	s2 := sets.NewSet(2, 3, 4)
-	intersection := s1.SetIntersection(s2)
-	if len(intersection) != 2 || !intersection.Contains(2) || !intersection.Contains(3) {
-		t.Errorf("Intersection does not contain the correct elements")
+	UnionWith := s.UnionWith(3, 4)
+	if len(UnionWith) != 4 || !UnionWith.Contains(1) || !UnionWith.Contains(4) {
+		t.Errorf("UnionWith does not contain the correct elements")
 	}
 }
 
 func TestIntersection(t *testing.T) {
-	s := sets.NewSet(1, 2, 3)
-	intersection := s.Intersection(2, 3, 4)
-	if len(intersection) != 2 || !intersection.Contains(2) || !intersection.Contains(3) {
-		t.Errorf("Intersection does not contain the correct elements")
+	s1 := sets.NewSet(1, 2, 3)
+	s2 := sets.NewSet(2, 3, 4)
+	IntersectionWith := s1.Intersection(s2)
+	if len(IntersectionWith) != 2 || !IntersectionWith.Contains(2) || !IntersectionWith.Contains(3) {
+		t.Errorf("IntersectionWith does not contain the correct elements")
 	}
 }
 
-func TestSetDifference(t *testing.T) {
-	s1 := sets.NewSet(1, 2, 3)
-	s2 := sets.NewSet(2, 3, 4)
-	difference := s1.SetDifference(s2)
-	if len(difference) != 1 || !difference.Contains(1) {
-		t.Errorf("Difference does not contain the correct elements")
+func TestIntersectionWith(t *testing.T) {
+	s := sets.NewSet(1, 2, 3)
+	IntersectionWith := s.IntersectionWith(2, 3, 4)
+	if len(IntersectionWith) != 2 || !IntersectionWith.Contains(2) || !IntersectionWith.Contains(3) {
+		t.Errorf("IntersectionWith does not contain the correct elements")
 	}
 }
 
 func TestDifference(t *testing.T) {
+	s1 := sets.NewSet(1, 2, 3)
+	s2 := sets.NewSet(2, 3, 4)
+	DifferenceWith := s1.Difference(s2)
+	if len(DifferenceWith) != 1 || !DifferenceWith.Contains(1) {
+		t.Errorf("DifferenceWith does not contain the correct elements")
+	}
+}
+
+func TestDifferenceWith(t *testing.T) {
 	s := sets.NewSet(1, 2, 3)
-	difference := s.Difference(2, 3)
-	if len(difference) != 1 || !difference.Contains(1) {
-		t.Errorf("Difference does not contain the correct elements")
+	DifferenceWith := s.DifferenceWith(2, 3)
+	if len(DifferenceWith) != 1 || !DifferenceWith.Contains(1) {
+		t.Errorf("DifferenceWith does not contain the correct elements")
 	}
 }
 
