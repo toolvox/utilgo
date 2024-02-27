@@ -1,4 +1,12 @@
 mode: set
+utilgo/api/errs/validation.go:28.42,30.24 2 1
+utilgo/api/errs/validation.go:30.24,32.3 1 1
+utilgo/api/errs/validation.go:33.2,33.73 1 1
+utilgo/api/errs/validation.go:37.44,39.2 1 1
+utilgo/api/errs/validation.go:42.41,43.17 1 1
+utilgo/api/errs/validation.go:43.17,45.3 1 1
+utilgo/api/errs/validation.go:46.2,46.10 1 1
+utilgo/api/errs/validation.go:50.71,52.2 1 1
 utilgo/cmd/codump/codump.go:33.50,35.16 2 0
 utilgo/cmd/codump/codump.go:35.16,38.3 2 0
 utilgo/cmd/codump/codump.go:39.2,41.92 2 0

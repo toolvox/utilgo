@@ -1,4 +1,4 @@
-// Package api provides the interface which the structs in the library implement.
+// Package api provides the interfaces which the structs in the library implement, and common type definitions.
 package api
 
 // Unit is an empty struct. An efficient way to represent nothing.
