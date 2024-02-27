@@ -1,4 +1,4 @@
-// Package sliceutils offers utility functions for slice manipulation and analysis in Go.
+// Package sliceutils provides utilities for slicing operations and analyses in Go.
 package sliceutils
 
 // PowerSet returns a power-set of the input in 'src'.

@@ -11,8 +11,6 @@ import (
 //
 // Implementors of [Validator] should return nil if the object is considered valid,
 // or an instance of [ValidationErrors] if there are specific validation errors to report.
-// This allows for detailed reporting of what exactly failed during validation,
-// enabling consumers of the type to programmatically inspect and react to specific issues.
 //
 // You're free to return any error type, [ValidationErrors] is provided as a convenience.
 type Validator interface {
@@ -24,7 +22,7 @@ type Validator interface {
 // ValidationErrors is a slice of errors intended for aggregating multiple validation errors into a single error.
 type ValidationErrors []error
 
-// Error formats the ValidationErrors slice into a single string, showing all validation errors.
+// Error formats the [ValidationErrors] slice into a single string, showing all validation errors.
 func (e ValidationErrors) Error() string {
 	var errs []string
 	for _, err := range e {
@@ -33,12 +31,12 @@ func (e ValidationErrors) Error() string {
 	return fmt.Sprintf("validation errors: [%s]", strings.Join(errs, ", "))
 }
 
-// Unwrap returns the slice of errors contained within ValidationErrors, allowing individual errors to be examined.
+// Unwrap returns the slice of errors contained within [ValidationErrors], allowing individual errors to be examined.
 func (e ValidationErrors) Unwrap() []error {
 	return e
 }
 
-// OrNil checks if the ValidationErrors slice is empty and returns nil if true; otherwise, it returns the ValidationErrors slice itself as an error.
+// OrNil checks if the [ValidationErrors] slice is empty and returns nil if true; otherwise, it returns the [ValidationErrors] slice itself as an error.
 func (e ValidationErrors) OrNil() error {
 	if len(e) == 0 {
 		return nil
@@ -46,7 +44,7 @@ func (e ValidationErrors) OrNil() error {
 	return e
 }
 
-// Errorf appends a new error, formatted according to a format specifier, to the ValidationErrors slice.
+// Errorf appends a new error, formatted according to a format specifier, to the [ValidationErrors] slice.
 func (e *ValidationErrors) Errorf(format string, args ...interface{}) {
 	*e = append(*e, fmt.Errorf(format, args...))
 }

@@ -7,7 +7,7 @@ import (
 	"utilgo/api/errs"
 )
 
-// ExampleType demonstrates a type that implements the Validator interface.
+// ExampleType shows how a type can implement the Validator interface.
 type ExampleType struct {
 	Field1 string
 	Field2 int

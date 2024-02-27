@@ -9,7 +9,7 @@
 
 // Example usage:
 // To aggregate content from .go and .txt files into 'output.txt':
-// codump -root . -exts ".go,.txt" -out output.txt
+// 'codump' is a CLI tool for consolidating file contents across a directory tree into a singular output, based on specified file extensions.
 package main
 
 import (

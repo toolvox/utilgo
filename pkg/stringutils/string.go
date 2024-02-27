@@ -1,7 +1,7 @@
 package stringutils
 
 // String represents a string as a slice of runes.
-// This type allows for more direct manipulation of Unicode characters.
+// String typifies a string through a rune slice, facilitating direct Unicode character manipulation.
 type String []rune
 
 // String converts the String (slice of runes) back into a standard Go string.

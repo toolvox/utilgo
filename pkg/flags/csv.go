@@ -9,7 +9,7 @@ import (
 // CSVValue holds a slice of strings that are parsed from comma-separated values provided via flags.
 // Provides [CSVValue.Ints]() and [CSVValue.Floats]() functions.
 //
-// See the [ParseCSV]() function if you want to parse to a custom type.
+// CSVValue encapsulates a string slice parsed from comma-separated flag inputs, with methods for conversion to integers or floats via [CSVValue.Ints]() and [CSVValue.Floats]().
 type CSVValue struct {
 	Values []string
 }

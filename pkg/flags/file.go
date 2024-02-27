@@ -8,7 +8,7 @@ import (
 )
 
 // FileValue holds information about a file specified by a flag.
-// It stores the name of the file and its content in memory.
+// OutputFileValue denotes a CLI flag for designating an output file, maintaining the file's name and in-memory content.
 type FileValue struct {
 	Filename string // Path to the input file
 	Content  []byte // The content read from the file

@@ -9,10 +9,5 @@
 //
 // [ValidationErrors] is designed to collect multiple errors encountered during the validation process,
 // enabling detailed and user-friendly error reporting. It provides methods for formatting error messages,
-// accessing individual errors, and conditionally returning nil if no errors are present. This is particularly
-// useful in scenarios where multiple conditions need to be checked and reported back to the user or calling function.
-//
-// This package is ideal for applications requiring detailed validation reporting, such as web servers handling
-// user input, configuration loaders checking for valid settings, or any situation where robust error handling
-// and reporting are needed.
+// accessing individual errors, and conditionally returning nil if no errors are present.
 package errs
