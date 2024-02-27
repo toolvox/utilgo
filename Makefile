@@ -1,5 +1,5 @@
 .SILENT:
-.PHONY: godoc cover count
+.PHONY: godoc cover count install install.codump
 
 godoc:
 	start "http://localhost:6060" ; \
@@ -13,3 +13,9 @@ cover:
 
 count: 
 	countula -gitignore -excludes "zz_" -extensions "go" > lines
+
+install.codump:
+	cd cmd/codump ; \
+	go install
+
+install: install.codump
