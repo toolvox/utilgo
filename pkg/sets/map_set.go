@@ -2,12 +2,11 @@ package sets
 
 import (
 	"fmt"
+	"maps"
 	"sort"
 	"strings"
 
 	"utilgo/api"
-
-	"maps"
 )
 
 // Unit type for the set implementation.
@@ -33,6 +32,12 @@ func (s Set[T]) Add(elems ...T) {
 	for _, elem := range elems {
 		s[elem] = U
 	}
+}
+
+// Contains checks if the set contains the specified element.
+func (s Set[T]) Contains(element T) bool {
+	_, ok := s[element]
+	return ok
 }
 
 // SetUnion combines two sets into a new one containing elements from both.
@@ -111,12 +116,6 @@ func (s Set[T]) ThreeWay(other Set[T]) [3]Set[T] {
 		blr[2].Add(ok)
 	}
 	return blr
-}
-
-// Contains checks if the set contains the specified element.
-func (s Set[T]) Contains(element T) bool {
-	_, ok := s[element]
-	return ok
 }
 
 // String returns a string representation of the set.
