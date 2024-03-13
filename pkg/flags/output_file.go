@@ -89,10 +89,10 @@ func (o OutputFileValue) Writer() io.WriteCloser {
 	switch t := o.Get().(type) {
 	case os.File:
 		return &t
-	
+
 	case *os.File:
 		return t
-	
+
 	case io.WriteCloser:
 		return t
 

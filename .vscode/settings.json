@@ -5,6 +5,7 @@
         "Indentf",
         "kvps",
         "maputil",
+        "mathutil",
         "reflectutil",
         "sliceutil",
         "stringutil",

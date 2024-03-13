@@ -1,9 +1,9 @@
+// Package sliceutil provides utilities for slicing operations and analyses in Go.
 package sliceutil
 
 import (
 	"slices"
 )
-
 
 // Slice between two indices. Support negative numbers >= -len to count from the end.
 func Slice[TS ~[]T, T any](slice TS, from, to int) TS {

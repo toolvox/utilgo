@@ -28,7 +28,7 @@ func ExampleString() {
 
 	// Find and extract the Greek and emoji part, "Κόσμος👍", using rune positions
 	// This assumes knowledge of the string structure
-	greekPart := complexStr.Slice(complexStr.Len()-7, complexStr.Len())
+	greekPart := complexStr.Slice(-7, -1)
 	fmt.Println("Greek part (by runes):", greekPart.String())
 
 	// Demonstrating conversion back to bytes and manipulating bytes

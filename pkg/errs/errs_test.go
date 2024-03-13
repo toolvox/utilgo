@@ -2,9 +2,10 @@ package errs_test
 
 import (
 	"testing"
-	"utilgo/pkg/errs"
 
 	"github.com/stretchr/testify/require"
+
+	"utilgo/pkg/errs"
 )
 
 // TestWrapperError FOO

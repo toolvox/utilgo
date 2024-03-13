@@ -52,7 +52,7 @@ func (o TraverseFlags) Ignores(f fs.FS) ([]string, error) {
 			ignoreExcludes = append(ignoreExcludes, trimmed)
 		}
 	}
-	
+
 	ignoreExcludes = append(ignoreExcludes, o.IgnoreFile)
 	return slices.DeleteFunc(ignoreExcludes, reflectutil.IsZero), nil
 }

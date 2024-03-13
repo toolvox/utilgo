@@ -5,9 +5,9 @@ import (
 	"slices"
 	"testing"
 
-	"utilgo/pkg/stringutil"
-
 	"github.com/stretchr/testify/require"
+
+	"utilgo/pkg/stringutil"
 )
 
 type String = stringutil.String

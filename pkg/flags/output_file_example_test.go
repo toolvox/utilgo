@@ -42,7 +42,7 @@ func ExampleOutputFileValue() {
 	content2, _ := os.ReadFile(pathDefault)
 	fmt.Println(string(content2))
 
-	// Output: 
+	// Output:
 	// Example
 	// Default
 }
