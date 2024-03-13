@@ -1,14 +1,14 @@
-package sliceutils_test
+package sliceutil_test
 
 import (
 	"fmt"
 
-	"utilgo/pkg/sliceutils"
+	"utilgo/pkg/sliceutil"
 )
 
 func ExamplePowerSet() {
 	fmt.Println("PowerSet with []int{1, 2, 3}:")
-	for _, set := range sliceutils.PowerSet([]int{1, 2, 3}) {
+	for _, set := range sliceutil.PowerSet([]int{1, 2, 3}) {
 		fmt.Println(set)
 	}
 
@@ -26,7 +26,7 @@ func ExamplePowerSet() {
 
 func ExampleProduct() {
 	fmt.Println("Product of [][]int{{1, 2}, {3, 4}, {5, 6, 7}}:")
-	for _, prod := range sliceutils.Product([][]int{{1, 2}, {3, 4}, {5, 6, 7}}...) {
+	for _, prod := range sliceutil.Product([][]int{{1, 2}, {3, 4}, {5, 6, 7}}...) {
 		fmt.Println(prod)
 	}
 

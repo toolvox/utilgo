@@ -1,7 +1,3 @@
 # utilgo
 
-# TODO
-
-## Improvements:
-
-- [ ] Split "Decoders" to Vanilla and Valid (only Valid validates)
+A collection of utilities, helpers, and tools that I use to save coding time and space :)

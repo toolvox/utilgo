@@ -63,7 +63,7 @@ func TestCSVValue(t *testing.T) {
 		},
 		{
 			name:     "ParseCSV with custom parser and invalid input",
-			input:    "1,true,notaboolean",
+			input:    "1,true,not_boolean",
 			expected: nil, // Expected is nil since we anticipate an error
 			testFunc: func(csv *flags.CSVValue) (interface{}, error) {
 				// Custom parser function that converts string to bool but fails on invalid boolean values

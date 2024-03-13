@@ -1,9 +1,10 @@
 package sets_test
 
 import (
+	"fmt"
+	"log"
 	"reflect"
 	"testing"
-
 	"utilgo/pkg/sets"
 )
 
@@ -117,6 +118,137 @@ func TestTinySet(t *testing.T) {
 			if !reflect.DeepEqual(result, tc.expected) {
 				t.Errorf("Expected %v, got %v", tc.expected, result)
 			}
+		})
+	}
+}
+
+func strElement(i int) string {
+	return fmt.Sprint(i)
+}
+
+func strElements(from, to int) []string {
+	var res []string
+	for i := from; i < to; i++ {
+		res = append(res, strElement(i))
+	}
+	return res
+}
+
+
+func Benchmark_TinySet_New(b *testing.B) {
+	for N := 5; N < 100; N += 25 {
+		b.Run(fmt.Sprintf("Specific_%03d", N), func(b *testing.B) {
+			elements1 := strElements(0, N)
+			log.Println()
+			b.Run("New0", func(b *testing.B) {
+				for i := 0; i < b.N; i++ {
+					sets.NewTinySet(elements1...)
+				}
+			})
+
+			b.Run("New1", func(b *testing.B) {
+				for i := 0; i < b.N; i++ {
+					sets.NewTinySet(elements1...)
+				}
+			})
+
+			b.Run("New2", func(b *testing.B) {
+				for i := 0; i < b.N; i++ {
+					sets.NewTinySet(elements1...)
+				}
+			})
+
+			log.Println()
+		})
+	}
+}
+
+func Benchmark_TinySet_Contains(b *testing.B) {
+	for N := 5; N < 100; N += 25 {
+		b.Run(fmt.Sprintf("Specific_%03d", N), func(b *testing.B) {
+			elements1 := strElements(0, N)
+			elements2 := strElements(N/2, 2*N)
+
+			log.Println()
+			b.Run("Contains0", func(b *testing.B) {
+				tSet := sets.NewTinySet(elements1...)
+				b.ResetTimer()
+				for i := 0; i < b.N; i++ {
+					_ = tSet.Contains(elements1[1])
+					for _, v := range elements2 {
+						_ = tSet.Contains(v)
+					}
+				}
+			})
+
+			b.Run("Contains1", func(b *testing.B) {
+				tSet := sets.NewTinySet(elements1...)
+				b.ResetTimer()
+				for i := 0; i < b.N; i++ {
+					_ = tSet.Contains(elements1[1])
+					for _, v := range elements2 {
+						_ = tSet.Contains(v)
+					}
+				}
+			})
+
+			log.Println()
+		})
+	}
+}
+
+func Benchmark_TinySet_Add(b *testing.B) {
+	for N := 5; N < 100; N += 25 {
+		b.Run(fmt.Sprintf("Specific_%03d", N), func(b *testing.B) {
+			elements1 := strElements(0, N)
+			elements2 := strElements(N/2, 2*N)
+
+			b.Run("Add0/Batch", func(b *testing.B) {
+				tSet := sets.NewTinySet(elements1...)
+				for i := 0; i < b.N; i++ {
+					tSet.Add(elements2...)
+				}
+			})
+
+			b.Run("Add1/Batch", func(b *testing.B) {
+				tSet := sets.NewTinySet(elements1...)
+				for i := 0; i < b.N; i++ {
+					tSet.Add(elements2...)
+				}
+			})
+
+			log.Println()
+		})
+	}
+}
+
+func Benchmark_TinySet_Add_Single(b *testing.B) {
+	for N := 5; N < 100; N += 25 {
+		b.Run(fmt.Sprintf("Specific_%03d", N), func(b *testing.B) {
+			elements1 := strElements(0, N)
+			elements3 := strElements(N, 4*N)
+
+			log.Println()
+
+			b.Run("Add0/Single", func(b *testing.B) {
+				tSet := sets.NewTinySet(elements1...)
+				for i := 0; i < b.N; i++ {
+					for j := 0; j < len(elements3); j++ {
+						tSet.Add(elements3[j])
+					}
+				}
+			})
+
+			b.Run("Add1/Single", func(b *testing.B) {
+				tSet := sets.NewTinySet(elements1...)
+				for i := 0; i < b.N; i++ {
+					for j := 0; j < len(elements3); j++ {
+						tSet.Add(elements3[j])
+					}
+				}
+			})
+
+			log.Println()
 		})
 	}
 }

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 
 	"utilgo/pkg/flags"
 )
@@ -12,26 +13,38 @@ import (
 // Typical use-case for [utilgo/pkg/flags.FileValue]
 func ExampleFileValue() {
 	// Setup: initialization for example, can be ignored
-	tmpPath := os.TempDir() + "/example.txt"
-	os.WriteFile(tmpPath, []byte("Hello, world!"), 0644)
-	defer os.Remove(tmpPath)
-	os.Args = []string{"path/to/cmd", "-file", tmpPath}
+	tempDir := os.TempDir()
+	pathExample := filepath.Join(tempDir, "example.txt")
+	pathDefault := filepath.Join(tempDir, "default.txt")
+	defer func() {
+		os.Remove(pathExample)
+		os.Remove(pathDefault)
+	}()
+	os.WriteFile(pathExample, []byte("Hello, world!"), 0111)
+	os.WriteFile(pathDefault, []byte("This\n  Is\n    DEFAULT!"), 0111)
 
-	// Example: this is what you would typically find in your code
-	var fv flags.FileValue
-	flag.Var(&fv, "file", "file to read")
-	flag.Parse() // FileValue.Set will be called by flag.Parse
+	// Example: file1 set, file2 default
+	os.Args = []string{"path/to/cmd", "-file1", pathExample}
+	// this is what you would typically find in your code:
+	var fv1, fv2 flags.FileValue
+	flag.Var(&fv1, "file1", "file to read")
+	flag.Var(flags.FileDefault(&fv2, pathDefault), "file2", "file to read")
+	flag.Parse() // [FileValue.Set] will be called by flag.Parse
 
-	// Now you can get all the content by calling Get()
-	bytes := fv.Get().([]byte)
-	fmt.Println(string(bytes))
-	// Or you can get an io.Reader by calling Reader()
-	reader := fv.Reader()
-	bytes, _ = io.ReadAll(reader)
-	fmt.Println(string(bytes))
+	// Now you can get an [io.Reader] by calling Reader()
+	reader1 := fv1.Reader()
+	bytes1, _ := io.ReadAll(reader1)
+	fmt.Println(string(bytes1))
+
+	reader2 := fv2.Reader()
+	bytes2, _ := io.ReadAll(reader2)
+	fmt.Println(string(bytes2))
+
 	// Output:
 	// Hello, world!
-	// Hello, world!
+	// This
+	//   Is
+	//     DEFAULT!
 }
 
 // Using the Reader method to read content from [utilgo/pkg/flags.FileValue].

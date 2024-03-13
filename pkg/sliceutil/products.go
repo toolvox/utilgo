@@ -1,8 +1,9 @@
-// Package sliceutils provides utilities for slicing operations and analyses in Go.
-package sliceutils
+package sliceutil
+
+import "slices"
 
 // PowerSet returns a power-set of the input in 'src'.
-func PowerSet[T any, TS ~[]T](src TS) []TS {
+func PowerSet[TS ~[]T, T any](src TS) []TS {
 	powerSet := make([]TS, 1<<uint(len(src)))
 	powerSet[0] = TS{}
 	p := 1
@@ -21,7 +22,7 @@ func PowerSet[T any, TS ~[]T](src TS) []TS {
 }
 
 // Product generates the Cartesian product of variable number of slices.
-func Product[T any, TS ~[]T](slices ...TS) []TS {
+func Product[TS ~[]T, T any](slices ...TS) []TS {
 	if len(slices) == 0 {
 		return []TS{}
 	}
@@ -41,4 +42,22 @@ func Product[T any, TS ~[]T](slices ...TS) []TS {
 	}
 
 	return product
+}
+
+// Prefixes generates all prefixes of the given slice.
+func Prefixes[TS ~[]T, T any](slice TS) []TS {
+	result := make([]TS, len(slice)+1)
+	for i := 0; i <= len(slice); i++ {
+		result[i] = slices.Clone(slice[:i])
+	}
+	return result
+}
+
+// Suffixes generates all suffixes of the given slice.
+func Suffixes[TS ~[]T, T any](slice TS) []TS {
+	result := make([]TS, len(slice)+1)
+	for i := len(slice); i >= 0; i-- {
+		result[len(slice)-i] = slices.Clone(slice[i:])
+	}
+	return result
 }

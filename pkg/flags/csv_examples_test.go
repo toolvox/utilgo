@@ -38,7 +38,6 @@ func ExampleParseCSV() {
 	// Setup:
 	var csv flags.CSVValue
 	csv.Set("true,false,true")
-
 	// Example:
 	bools, _ := flags.ParseCSV(csv, strconv.ParseBool)
 	fmt.Println(bools)

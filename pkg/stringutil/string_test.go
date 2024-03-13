@@ -1,14 +1,16 @@
-package stringutils_test
+package stringutil_test
 
 import (
 	"fmt"
 	"slices"
 	"testing"
 
-	"utilgo/pkg/stringutils"
+	"utilgo/pkg/stringutil"
+
+	"github.com/stretchr/testify/require"
 )
 
-type String = stringutils.String
+type String = stringutil.String
 
 type sliceTest struct {
 	from, to int
@@ -51,19 +53,19 @@ func Test_String(t *testing.T) {
 			runeSlices: []sliceTest{
 				{from: -1, to: 0, expect: ""},
 				{from: 0, to: -1, expect: "👍"},
-				{from: 0, to: 1, expect: "👍"},
+				{from: 0, to: 10, expect: "👍"},
 			},
 		},
 		{source: "👍👎", expectedByteLen: 2 * 4, expectedRuneLen: 2,
 			byteSlices: []sliceTest{
 				{from: 0, to: 4, expect: "👍"},
 				{from: 4, to: 8, expect: "👎"},
-				{from: -1, to: -1, expect: "👍👎"},
+				{from: -8, to: -1, expect: "👍👎"},
 			},
 			runeSlices: []sliceTest{
-				{from: 0, to: 1, expect: "👍"},
-				{from: 1, to: 2, expect: "👎"},
-				{from: -1, to: -1, expect: "👍👎"},
+				{from: 0, to: -2, expect: "👍"},
+				{from: 1, to: 3, expect: "👎"},
+				{from: -2, to: -1, expect: "👍👎"},
 			},
 		},
 		{source: "👍What \the \nope👎", expectedByteLen: 4 + 13 + 4, expectedRuneLen: 15,
@@ -136,10 +138,12 @@ func Test_String(t *testing.T) {
 			t.Run("Slice", func(t *testing.T) {
 				for _, bs := range tt.byteSlices {
 					t.Run(fmt.Sprint("byte: ", bs), func(t *testing.T) {
-						byteSlice := testString.ByteSlice(bs.from, bs.to)
-						if slices.Compare([]byte(bs.expect), byteSlice.Bytes()) != 0 {
-							t.Errorf("byte slice: expected: '%v', actual: '%v'", bs.expect, string(byteSlice))
-						}
+						require.NotPanics(t, func() {
+							byteSlice := testString.ByteSlice(bs.from, bs.to)
+							if slices.Compare([]byte(bs.expect), byteSlice.Bytes()) != 0 {
+								t.Errorf("byte slice: expected: '%v', actual: '%v'", bs.expect, string(byteSlice))
+							}
+						})
 					})
 				}
 				for _, bs := range tt.runeSlices {

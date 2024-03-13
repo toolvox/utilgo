@@ -1,3 +1,8 @@
-Count by extension:
-  go: 1244
-TOTAL: 1244
+Counts by extension:
+    `.go`: 2099
+    `.json`: 14
+    `.md`: 53
+    `Makefile`: 26
+
+  ===  
+Total lines: 2192

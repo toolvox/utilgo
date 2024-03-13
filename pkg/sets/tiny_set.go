@@ -1,47 +1,71 @@
+// Package sets provides several implementation of a Set and related helpers.
 package sets
 
 import (
 	"fmt"
 	"strings"
+	"utilgo/pkg/sliceutil"
 )
 
-// TinySet represents a set of elements of type TCmp using a slice for storage.
+// TinySet represents a set of elements of type C using a slice for storage.
 // It is optimized for small sets where the overhead of a map is not justified.
-type TinySet[TCmp comparable] []TCmp
+type TinySet[C comparable] []C
 
 // NewTinySet initializes a new [TinySet] with the given elements, ensuring uniqueness.
-func NewTinySet[TCmp comparable](elements ...TCmp) TinySet[TCmp] {
-	ts := TinySet[TCmp]{}
-	for _, elem := range elements {
-		if !ts.Contains(elem) {
-			ts = append(ts, elem)
-		}
+func NewTinySet[C comparable](elements ...C) TinySet[C] {
+	result := TinySet[C]{}
+	for _, e := range elements {
+		result.Add(e)
 	}
-	return ts
+	return result
+}
+
+// String provides a string representation of the [TinySet].
+func (tinySet TinySet[C]) String() string {
+	var elems []string
+	for _, elem := range tinySet {
+		elems = append(elems, fmt.Sprintf("%v", elem))
+	}
+	return fmt.Sprintf("{%s}", strings.Join(elems, ", "))
+}
+
+// Len counts the elements in the [TinySet].
+func (tinySet TinySet[C]) Len() int { return len(tinySet) }
+
+// Elements returns the contained elements.
+func (tinySet TinySet[C]) Elements() []C { return tinySet }
+
+// Contains checks if an element exists in the [TinySet].
+func (tinySet TinySet[C]) Contains(elements ...C) bool {
+outer:
+	for _, e := range elements {
+		for _, i := range tinySet {
+			if i == e {
+				continue outer
+			}
+		}
+		return false
+	}
+	return true
 }
 
 // Add inserts new unique elements into the [TinySet].
-func (ts *TinySet[TCmp]) Add(elements ...TCmp) {
+func (tinySet *TinySet[C]) Add(elements ...C) {
 	for _, elem := range elements {
-		if !ts.Contains(elem) {
-			*ts = append(*ts, elem)
+		if !tinySet.Contains(elem) {
+			*tinySet = append(*tinySet, elem)
 		}
 	}
 }
 
-// Contains checks if an element exists in the [TinySet].
-func (ts TinySet[TCmp]) Contains(elem TCmp) bool {
-	for _, e := range ts {
-		if e == elem {
-			return true
-		}
-	}
-	return false
+// Remove elements from the [TinySet].
+func (tinySet *TinySet[C]) Remove(elements ...C) {
+	*tinySet = sliceutil.CropElements(*tinySet, elements...)
 }
 
 // Union merges the current set with another set and returns the result as a new [TinySet].
-func (ts TinySet[TCmp]) Union(other TinySet[TCmp]) TinySet[TCmp] {
-	result := NewTinySet(ts...) // Start with a copy of the current set
+func (tinySet TinySet[C]) Union(other TinySet[C]) TinySet[C] {
+	result := NewTinySet(tinySet...) // Start with a copy of the current set
 	for _, elem := range other {
 		if !result.Contains(elem) {
 			result = append(result, elem)
@@ -50,10 +74,41 @@ func (ts TinySet[TCmp]) Union(other TinySet[TCmp]) TinySet[TCmp] {
 	return result
 }
 
+// Intersection returns a new [TinySet] containing elements that exist in both sets.
+func (tinySet TinySet[C]) Intersection(other TinySet[C]) TinySet[C] {
+	var result TinySet[C]
+	for _, elem := range tinySet {
+		if other.Contains(elem) {
+			result.Add(elem)
+		}
+	}
+	return result
+}
+
+// Difference returns a new [TinySet] containing elements present in this set but not in the other set.
+func (tinySet TinySet[C]) Difference(other TinySet[C]) TinySet[C] {
+	var result TinySet[C]
+	for _, elem := range tinySet {
+		if !other.Contains(elem) {
+			result.Add(elem)
+		}
+	}
+	return result
+}
+
+// ThreeWay splits elements into three [TinySets]: common to both, only in the first, and only in the second.
+func (tinySet TinySet[C]) ThreeWay(other TinySet[C]) [3]TinySet[C] {
+	return [3]TinySet[C]{
+		tinySet.Intersection(other),
+		tinySet.Difference(other),
+		other.Difference(tinySet),
+	}
+}
+
 // UnionWith adds multiple elements to the set and returns the resulting set.
 // This operation does not modify the original set but returns a new one.
-func (ts TinySet[TCmp]) UnionWith(elements ...TCmp) TinySet[TCmp] {
-	result := NewTinySet(ts...) // Start with a copy of the current set
+func (tinySet TinySet[C]) UnionWith(elements ...C) TinySet[C] {
+	result := NewTinySet(tinySet...) // Start with a copy of the current set
 	for _, elem := range elements {
 		if !result.Contains(elem) {
 			result = append(result, elem)
@@ -62,53 +117,14 @@ func (ts TinySet[TCmp]) UnionWith(elements ...TCmp) TinySet[TCmp] {
 	return result
 }
 
-// Intersection returns a new [TinySet] containing elements that exist in both sets.
-func (ts TinySet[TCmp]) Intersection(other TinySet[TCmp]) TinySet[TCmp] {
-	var result TinySet[TCmp]
-	for _, elem := range ts {
-		if other.Contains(elem) {
-			result.Add(elem)
-		}
-	}
-	return result
-}
-
 // IntersectionWith returns a new [TinySet] containing elements that exist in both this set and the provided elements.
-func (ts TinySet[TCmp]) IntersectionWith(elements ...TCmp) TinySet[TCmp] {
+func (tinySet TinySet[C]) IntersectionWith(elements ...C) TinySet[C] {
 	other := NewTinySet(elements...)
-	return ts.Intersection(other)
-}
-
-// Difference returns a new [TinySet] containing elements present in this set but not in the other set.
-func (ts TinySet[TCmp]) Difference(other TinySet[TCmp]) TinySet[TCmp] {
-	var result TinySet[TCmp]
-	for _, elem := range ts {
-		if !other.Contains(elem) {
-			result.Add(elem)
-		}
-	}
-	return result
+	return tinySet.Intersection(other)
 }
 
 // DifferenceWith returns a new [TinySet] containing elements present in this set but not among the provided elements.
-func (ts TinySet[TCmp]) DifferenceWith(elements ...TCmp) TinySet[TCmp] {
+func (tinySet TinySet[C]) DifferenceWith(elements ...C) TinySet[C] {
 	other := NewTinySet(elements...)
-	return ts.Difference(other)
-}
-
-// ThreeWay splits elements into three [TinySets]: common to both, only in the first, and only in the second.
-func (ts TinySet[TCmp]) ThreeWay(other TinySet[TCmp]) [3]TinySet[TCmp] {
-	common := ts.Intersection(other)
-	onlyInTs := ts.Difference(other)
-	onlyInOther := other.Difference(ts)
-	return [3]TinySet[TCmp]{common, onlyInTs, onlyInOther}
-}
-
-// String provides a string representation of the [TinySet].
-func (ts TinySet[TCmp]) String() string {
-	var elems []string
-	for _, elem := range ts {
-		elems = append(elems, fmt.Sprintf("%v", elem))
-	}
-	return fmt.Sprintf("{%s}", strings.Join(elems, ", "))
+	return tinySet.Difference(other)
 }

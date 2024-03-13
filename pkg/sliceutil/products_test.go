@@ -1,4 +1,4 @@
-package sliceutils
+package sliceutil
 
 import (
 	"reflect"
@@ -81,6 +81,44 @@ func TestProduct(t *testing.T) {
 			copy(slices, tt.slices)
 			if got := Product(slices...); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Product() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestPrefixes(t *testing.T) {
+	tests := []struct {
+		name  string
+		slice []int
+		want  [][]int
+	}{
+		{"empty slice", []int{}, [][]int{{}}},
+		{"single element", []int{1}, [][]int{{}, {1}}},
+		{"multiple elements", []int{1, 2, 3}, [][]int{{}, {1}, {1, 2}, {1, 2, 3}}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := Prefixes(tt.slice); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Prefixes() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestSuffixes(t *testing.T) {
+	tests := []struct {
+		name  string
+		slice []int
+		want  [][]int
+	}{
+		{"empty slice", []int{}, [][]int{{}}},
+		{"single element", []int{1}, [][]int{{}, {1}}},
+		{"multiple elements", []int{1, 2, 3}, [][]int{{}, {3}, {2, 3}, {1, 2, 3}}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := Suffixes(tt.slice); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Suffixes() = %v, want %v", got, tt.want)
 			}
 		})
 	}

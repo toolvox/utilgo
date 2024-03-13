@@ -7,40 +7,74 @@ import (
 	"os"
 )
 
-// FileValue holds information about a file specified by a flag.
-// OutputFileValue denotes a CLI flag for designating an output file, maintaining the file's name and in-memory content.
+// FileValue is a command-line flag that handles an input file.
+//
+// The file is opened when Set is called and fails if the file cannot be opened.
 type FileValue struct {
-	Filename string // Path to the input file
-	Content  []byte // The content read from the file
+	Filename string
+	Content  []byte
 }
 
-// String returns the name of the file.
-func (fv FileValue) String() string {
-	return fv.Filename
+// FileDefault sets the default value of a [FileValue] flag, returning the pointer for use in:
+//
+//	flag.Var(flags.FileDefault(&o.InputFile, "default.txt"), "input", "usage usage")
+func FileDefault(fileValue *FileValue, def string) *FileValue {
+	*fileValue = FileValue{
+		Filename: def,
+		Content:  []byte{},
+	}
+	return fileValue
+}
+
+// String returns the input path of the file.
+//
+// This method implements the [flag.Value] interface.
+func (f FileValue) String() string {
+	return fmt.Sprintf(`"%s"`, f.Filename)
 }
 
 // Set reads the file named by value and stores its content.
+//
 // The value is saved even if the file fails to open.
+//
 // This method implements the [flag.Value] interface.
-func (fv *FileValue) Set(value string) error {
+func (f *FileValue) Set(value string) error {
+	if value == "" {
+		return nil
+	}
 	content, err := os.ReadFile(value)
-	fv.Filename = value
+	f.Filename = value
 	if err != nil {
 		return fmt.Errorf("unable to read file '%s': %w", value, err)
 	}
 
-	fv.Content = content
+	f.Content = content
 	return nil
 }
 
 // Get returns the content of the file.
-// This method implements the [flag.Getter] interface.
+// [FileValue.Get] will try to call [FileValue.Set] if it wasn't called yet.
+//
 // The return type is always []byte.
-func (fv FileValue) Get() any {
-	return fv.Content
+//
+// This method implements the [flag.Getter] interface.
+func (f FileValue) Get() any {
+	if len(f.Content) == 0 {
+		if err := f.Set(f.Filename); err != nil {
+			return err
+		}
+	}
+	return f.Content
 }
 
 // Reader returns an [io.Reader] for the content of the file.
-func (fv FileValue) Reader() io.Reader {
-	return bytes.NewReader(fv.Content)
+// Uses return value from [FileValue.Get].
+func (f FileValue) Reader() io.Reader {
+	switch t := f.Get().(type) {
+	case []byte:
+		return bytes.NewReader(t)
+
+	default:
+		return nil
+	}
 }
