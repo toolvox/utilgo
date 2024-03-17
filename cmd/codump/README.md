@@ -37,7 +37,7 @@ $ codump -root "./project/target" -exclude ".git" -include "*.go,*.md"
 
 ## License
 
-`codump` is made available under the [MIT License](LICENSE). For more details, see the LICENSE file in the repository.
+`codump` is made available under the [MIT License](../../LICENSE). For more details, see the LICENSE file in the repository.
 
 ## Support
 

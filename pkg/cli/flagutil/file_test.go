@@ -1,4 +1,4 @@
-package flags_test
+package flagutil_test
 
 import (
 	"flag"
@@ -9,8 +9,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
+	"utilgo/pkg/cli/flagutil"
 	"utilgo/pkg/errs"
-	"utilgo/pkg/flags"
 )
 
 func TestFileValue(t *testing.T) {
@@ -46,7 +46,7 @@ func TestFileValue(t *testing.T) {
 			testSet := flag.NewFlagSet(tt.name, flag.ContinueOnError)
 			testSet.SetOutput(io.Discard)
 
-			var testFlag flags.FileValue
+			var testFlag flagutil.FileValue
 			testSet.Var(&testFlag, "test", "input file")
 			must := require.New(t)
 			must.NotPanics(func() {

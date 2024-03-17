@@ -16,3 +16,11 @@ type Validator interface {
 	// The error returned can be cast to a Errors type to inspect individual errors.
 	Validate() error
 }
+
+// Must is a helper that takes a comma-error idiom and returns just the value, panicking if an error occurred.
+func Must[T any](ret T, err error) T {
+	if err != nil {
+		panic(Wrap("must panic for", err))
+	}
+	return ret
+}

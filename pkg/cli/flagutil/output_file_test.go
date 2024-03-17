@@ -1,4 +1,4 @@
-package flags_test
+package flagutil_test
 
 import (
 	"flag"
@@ -11,8 +11,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	"utilgo/pkg/cli/flagutil"
 	"utilgo/pkg/errs"
-	"utilgo/pkg/flags"
 )
 
 func prepTemp(t *testing.T) string {
@@ -53,11 +53,11 @@ func TestOutputFileValue(t *testing.T) {
 			os.Chdir(tempDir)
 			defer os.Chdir("../..")
 			testSet := flag.NewFlagSet(tt.name, flag.ContinueOnError)
-			var testFlag flags.OutputFileValue
+			var testFlag flagutil.OutputFileValue
 			if tt.overrideFlag != 0 {
-				testFlag = flags.OutputFileValue{Flag: tt.overrideFlag}
+				testFlag = flagutil.OutputFileValue{Flag: tt.overrideFlag}
 			}
-			testSet.Var(flags.OutputFileDefault(&testFlag, "", tt.overrideFlag), "test", "output file")
+			testSet.Var(flagutil.OutputFileDefault(&testFlag, "", tt.overrideFlag), "test", "output file")
 			must := require.New(t)
 			must.NotPanics(func() {
 				err := testSet.Parse([]string{"-test", tt.filename})

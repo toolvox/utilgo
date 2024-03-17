@@ -34,7 +34,7 @@ countula -root "./source" -out "count_report.txt" -include ".go,.js" -exclude "v
 
 ## License
 
-`codump` is made available under the [MIT License](LICENSE). For more details, see the LICENSE file in the repository.
+`codump` is made available under the [MIT License](../../LICENSE). For more details, see the LICENSE file in the repository.
 
 ## Support
 

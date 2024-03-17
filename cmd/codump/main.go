@@ -28,10 +28,10 @@ import (
 	"log/slog"
 	"os"
 
+	"utilgo/pkg/cli/flagutil"
 	"utilgo/pkg/cmdutil"
 	"utilgo/pkg/errs"
-	"utilgo/pkg/files"
-	"utilgo/pkg/flags"
+	"utilgo/pkg/fsutil"
 	"utilgo/pkg/logs"
 )
 
@@ -40,7 +40,7 @@ const Version = "v0.1.0"
 type codumpOpts struct {
 	cmdutil.TraverseFlags
 
-	OutputFile flags.OutputFileValue
+	OutputFile flagutil.OutputFileValue
 }
 
 func main() {
@@ -82,7 +82,7 @@ func run(o codumpOpts, log *slog.Logger) error {
 	log.Info("excluding globs", slog.Any("patterns", excludes))
 
 	// 5. Create Matcher
-	matcher := files.NewGlobMatcher(includes, excludes)
+	matcher := fsutil.NewGlobMatcher(includes, excludes)
 
 	// 6. Run Matcher and output to writer
 	warns := matcher.WalkFS(fsys, func(path string, content []byte) error {

@@ -1,7 +1,10 @@
 {
     "cSpell.words": [
+        "cmds",
         "cmdutil",
         "codump",
+        "flagutil",
+        "fsutil",
         "Indentf",
         "kvps",
         "maputil",

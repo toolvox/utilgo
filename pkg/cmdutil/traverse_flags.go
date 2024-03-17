@@ -1,6 +1,8 @@
 // Package cmdutil provides helpers and utilities for cmd apps.
 package cmdutil
 
+// TODO: this is a FlagSet*
+
 import (
 	"flag"
 	"io/fs"
@@ -8,15 +10,15 @@ import (
 	"slices"
 	"strings"
 
-	"utilgo/pkg/flags"
+	"utilgo/pkg/cli/flagutil"
 	"utilgo/pkg/reflectutil"
 )
 
 // TraverseFlags encapsulates options for file system traversal and pattern matching.
 type TraverseFlags struct {
 	RootDir      string
-	IncludeGlobs flags.CSVValue
-	ExcludeGlobs flags.CSVValue
+	IncludeGlobs flagutil.CSVValue
+	ExcludeGlobs flagutil.CSVValue
 	IgnoreFile   string
 }
 

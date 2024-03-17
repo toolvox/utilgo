@@ -1,4 +1,4 @@
-package flags_test
+package flagutil_test
 
 import (
 	"flag"
@@ -7,10 +7,10 @@ import (
 	"os"
 	"path/filepath"
 
-	"utilgo/pkg/flags"
+	"utilgo/pkg/cli/flagutil"
 )
 
-// Typical use-case for [utilgo/pkg/flags.FileValue]
+// Typical use-case for [utilgo/pkg/flagutil.FileValue]
 func ExampleFileValue() {
 	// Setup: initialization for example, can be ignored
 	tempDir := os.TempDir()
@@ -26,9 +26,9 @@ func ExampleFileValue() {
 	// Example: file1 set, file2 default
 	os.Args = []string{"path/to/cmd", "-file1", pathExample}
 	// this is what you would typically find in your code:
-	var fv1, fv2 flags.FileValue
+	var fv1, fv2 flagutil.FileValue
 	flag.Var(&fv1, "file1", "file to read")
-	flag.Var(flags.FileDefault(&fv2, pathDefault), "file2", "file to read")
+	flag.Var(flagutil.FileDefault(&fv2, pathDefault), "file2", "file to read")
 	flag.Parse() // [FileValue.Set] will be called by flag.Parse
 
 	// Now you can get an [io.Reader] by calling Reader()
@@ -47,10 +47,10 @@ func ExampleFileValue() {
 	//     DEFAULT!
 }
 
-// Using the Reader method to read content from [utilgo/pkg/flags.FileValue].
+// Using the Reader method to read content from [utilgo/pkg/flagutil.FileValue].
 func ExampleFileValue_Reader() {
 	// Setup: Create a mock FileValue
-	fv := flags.FileValue{"example.txt", []byte("Hello, world!")}
+	fv := flagutil.FileValue{"example.txt", []byte("Hello, world!")}
 
 	// Example: using Reader
 	buf, _ := io.ReadAll(fv.Reader())

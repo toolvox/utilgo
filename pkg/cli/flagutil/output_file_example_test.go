@@ -1,4 +1,4 @@
-package flags_test
+package flagutil_test
 
 import (
 	"flag"
@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"utilgo/pkg/flags"
+	"utilgo/pkg/cli/flagutil"
 )
 
 func ExampleOutputFileValue() {
@@ -23,9 +23,9 @@ func ExampleOutputFileValue() {
 	// Example: file1 set, file2 default
 	os.Args = []string{"path/to/cmd", "-out1", pathExample}
 	// this is what you would typically find in your code:
-	var ofv1, ofv2 flags.OutputFileValue
+	var ofv1, ofv2 flagutil.OutputFileValue
 	flag.Var(&ofv1, "out1", "usage 1")
-	flag.Var(flags.OutputFileDefault(&ofv2, pathDefault, 0), "out2", "usage 2")
+	flag.Var(flagutil.OutputFileDefault(&ofv2, pathDefault, 0), "out2", "usage 2")
 	flag.Parse()
 
 	// now we get the [io.Writer] and use it to write to the files.

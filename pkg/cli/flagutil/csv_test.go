@@ -1,11 +1,11 @@
-package flags_test
+package flagutil_test
 
 import (
 	"fmt"
 	"reflect"
 	"testing"
 
-	"utilgo/pkg/flags"
+	"utilgo/pkg/cli/flagutil"
 )
 
 func TestCSVValue(t *testing.T) {
@@ -13,14 +13,14 @@ func TestCSVValue(t *testing.T) {
 		name     string
 		input    string
 		expected interface{} // Use interface{} to handle different types of expected results
-		testFunc func(*flags.CSVValue) (interface{}, error)
+		testFunc func(*flagutil.CSVValue) (interface{}, error)
 		wantErr  bool
 	}{
 		{
 			name:     "SetAndGet valid input",
 			input:    "1,2,3,4,5",
 			expected: []string{"1", "2", "3", "4", "5"},
-			testFunc: func(csv *flags.CSVValue) (interface{}, error) {
+			testFunc: func(csv *flagutil.CSVValue) (interface{}, error) {
 				return csv.Get().([]string), nil
 			},
 			wantErr: false,
@@ -29,7 +29,7 @@ func TestCSVValue(t *testing.T) {
 			name:     "Ints valid input",
 			input:    "1,2,3,-4,5",
 			expected: []int{1, 2, 3, -4, 5},
-			testFunc: func(csv *flags.CSVValue) (interface{}, error) {
+			testFunc: func(csv *flagutil.CSVValue) (interface{}, error) {
 				return csv.Ints()
 			},
 			wantErr: false,
@@ -38,7 +38,7 @@ func TestCSVValue(t *testing.T) {
 			name:     "Floats valid input",
 			input:    "1.1,2.2,3.3,-4.4,5.5",
 			expected: []float64{1.1, 2.2, 3.3, -4.4, 5.5},
-			testFunc: func(csv *flags.CSVValue) (interface{}, error) {
+			testFunc: func(csv *flagutil.CSVValue) (interface{}, error) {
 				return csv.Floats()
 			},
 			wantErr: false,
@@ -47,7 +47,7 @@ func TestCSVValue(t *testing.T) {
 			name:     "Ints invalid input",
 			input:    "not,a,number",
 			expected: nil,
-			testFunc: func(csv *flags.CSVValue) (interface{}, error) {
+			testFunc: func(csv *flagutil.CSVValue) (interface{}, error) {
 				return csv.Ints()
 			},
 			wantErr: true,
@@ -56,7 +56,7 @@ func TestCSVValue(t *testing.T) {
 			name:     "Floats invalid input",
 			input:    "not,a,float",
 			expected: nil,
-			testFunc: func(csv *flags.CSVValue) (interface{}, error) {
+			testFunc: func(csv *flagutil.CSVValue) (interface{}, error) {
 				return csv.Floats()
 			},
 			wantErr: true,
@@ -65,9 +65,9 @@ func TestCSVValue(t *testing.T) {
 			name:     "ParseCSV with custom parser and invalid input",
 			input:    "1,true,not_boolean",
 			expected: nil, // Expected is nil since we anticipate an error
-			testFunc: func(csv *flags.CSVValue) (interface{}, error) {
+			testFunc: func(csv *flagutil.CSVValue) (interface{}, error) {
 				// Custom parser function that converts string to bool but fails on invalid boolean values
-				return flags.ParseCSV(*csv, func(val string) (bool, error) {
+				return flagutil.ParseCSV(*csv, func(val string) (bool, error) {
 					if val == "true" {
 						return true, nil
 					} else if val == "false" {
@@ -83,7 +83,7 @@ func TestCSVValue(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			var csv flags.CSVValue
+			var csv flagutil.CSVValue
 			err := csv.Set(tt.input)
 			if err != nil {
 				t.Fatalf("CSVValue.Set() failed: %v", err)

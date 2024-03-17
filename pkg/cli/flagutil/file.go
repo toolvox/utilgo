@@ -1,5 +1,5 @@
-// Package flags introduces supplementary [flag.Value] implementations for utilization with the [flag.Var](...) function.
-package flags
+// package flagutil introduces supplementary [flag.Value] implementations for utilization with the go's [pkg/flag] package or [pkg/utilgo/pkg/flags] package.
+package flagutil
 
 import (
 	"bytes"
@@ -18,7 +18,7 @@ type FileValue struct {
 
 // FileDefault sets the default value of a [FileValue] flag, returning the pointer for use in:
 //
-//	flag.Var(flags.FileDefault(&o.InputFile, "default.txt"), "input", "usage usage")
+//	flag.Var(flagutil.FileDefault(&o.InputFile, "default.txt"), "input", "usage usage")
 func FileDefault(fileValue *FileValue, def string) *FileValue {
 	*fileValue = FileValue{
 		Filename: def,

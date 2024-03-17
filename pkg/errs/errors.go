@@ -43,10 +43,10 @@ func (e Errors) Unwrap() []error {
 
 // OrNil checks if the [Errors] slice is empty and returns nil if true; otherwise, it returns the [Errors] slice itself as an error.
 func (e Errors) OrNil() error {
-	if len(e.Clean()) == 0 {
-		return nil
+	if clean := e.Clean(); len(clean) != 0 {
+		return Errors(clean)
 	}
-	return Errors(e.Clean())
+	return nil
 }
 
 // WithError appends a new error to the [Errors] slice.

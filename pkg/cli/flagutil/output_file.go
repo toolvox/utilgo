@@ -1,4 +1,4 @@
-package flags
+package flagutil
 
 import (
 	"io"
@@ -18,7 +18,7 @@ type OutputFileValue struct {
 
 // OutputFileDefault sets the default values of an [OutputFileDefault] flag, returning the pointer to use in:
 //
-//	flag.Var(flags.OutputFileDefault(&o.OutputFile, "default.txt", 0644), "output", "usage usage")
+//	flag.Var(flagutil.OutputFileDefault(&o.OutputFile, "default.txt", 0644), "output", "usage usage")
 //
 // `O_RDONLY (0)` is not a valid flag and will default to `os.O_CREATE | os.O_TRUNC`
 func OutputFileDefault(outputFileValue *OutputFileValue, defaultPath string, defaultFlag int) *OutputFileValue {

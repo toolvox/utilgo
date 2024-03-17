@@ -35,10 +35,10 @@ import (
 	"slices"
 	"strings"
 
+	"utilgo/pkg/cli/flagutil"
 	"utilgo/pkg/cmdutil"
 	"utilgo/pkg/errs"
-	"utilgo/pkg/files"
-	"utilgo/pkg/flags"
+	"utilgo/pkg/fsutil"
 	"utilgo/pkg/logs"
 	"utilgo/pkg/maputil"
 	"utilgo/pkg/reflectutil"
@@ -49,8 +49,8 @@ const Version = "v0.1.0"
 type countulaOpts struct {
 	cmdutil.TraverseFlags
 
-	IgnoreLinePrefix flags.CSVValue
-	OutputFile       flags.OutputFileValue
+	IgnoreLinePrefix flagutil.CSVValue
+	OutputFile       flagutil.OutputFileValue
 	DirMode          bool
 	MergeMode        bool
 }
@@ -97,7 +97,7 @@ func run(o countulaOpts, log *slog.Logger) error {
 	log.Info("excluding globs", slog.Any("patterns", excludes))
 
 	// 5. Create Matcher
-	matcher := files.NewGlobMatcher(includes, excludes)
+	matcher := fsutil.NewGlobMatcher(includes, excludes)
 	skipPrefixes := o.IgnoreLinePrefix.Values
 	counts := map[string]map[string]int{}
 

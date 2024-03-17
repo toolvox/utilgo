@@ -1,5 +1,4 @@
-// Package files provides helpers  and utilities for working with Files and FileSystems.
-package files
+package fsutil
 
 import (
 	"io/fs"
