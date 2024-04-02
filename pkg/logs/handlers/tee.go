@@ -13,11 +13,16 @@ type TeeHandler []slog.Handler
 
 // NewTeeHandler creates a new [TeeHandler] with the provided [pkg/log/slog.Handler] slice.
 // If no handlers are provided, it returns a [NullHandler] that ignores all log actions.
+// If only one handler is provided, it returns that handler.
 func NewTeeHandler(handlers ...slog.Handler) slog.Handler {
-	if len(handlers) == 0 {
+	switch len(handlers) {
+	case 0:
 		return NullHandler{}
+	case 1:
+		return handlers[0]
+	default:
+		return TeeHandler(handlers)
 	}
-	return TeeHandler(handlers)
 }
 
 // Enabled checks if at least one of the contained handlers is enabled for the given log level and context.

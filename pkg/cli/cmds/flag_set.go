@@ -27,7 +27,7 @@ func (fs *FlagSet) Var(value FlagValue, name string, usage string) FlagValue {
 
 // BoolFlags returns the name of all the [Flag]s which are boolean flags.
 func (fs *FlagSet) BoolFlags() []string {
-	return sliceutil.SelectNonZero(*fs,
+	return sliceutil.SelectNonZeroFunc(*fs,
 		func(flag Flag) string {
 			if boolFlag, ok := flag.(isBoolFlag); ok && boolFlag.IsBoolFlag() {
 				return flag.FlagName()

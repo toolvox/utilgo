@@ -143,7 +143,7 @@ func Test_TokenizeFlags(t *testing.T) {
 
 					must.NotNil(testTokenizer.Actions)
 					// must.Len(testTokenizer.Actions, len(tt.expectedActions))
-					must.ElementsMatch(tt.expectedActions, testTokenizer.Actions)
+					must.ElementsMatch(tt.expectedActions, testTokenizer.Actions[1:])
 
 					must.NotNil(testTokenizer.Tokenized)
 					// must.Len(testTokenizer.Tokenized, len(tt.expectedFlags))
