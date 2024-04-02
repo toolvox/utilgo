@@ -1,44 +1,91 @@
-# codump
+# Codump
 
-`codump` is a command-line utility designed to aggregate the contents of files from a directory tree into a single output file or stream.
+`codump` is a command-line utility designed to traverse a directory tree and compile the contents of files that match specified criteria into a single output file or stream. It leverages flexible include and exclude filtering capabilities, allowing users to specify precisely which files should be aggregated based on glob patterns. This utility is versatile for various scripting, logging, and data aggregation purposes.
+
+## Features
+
+- Traverse directories starting from a specified root or the current working directory.
+- Include or exclude files based on glob patterns for precise control over which files are aggregated.
+- Supports output to both files and standard output/error, allowing for flexible integration into workflows and scripts.
 
 ## Installation
 
-To install `codump`, you will need a Go development environment. Follow these steps:
-
-1. Clone the repository to your local machine.
-2. Navigate to the cloned directory.
-3. Build the project using `go build`, which will produce the `codump` executable.
+To install `codump`, you'll need to build it from the source:
 
 ```sh
-git clone https://github.com/toolvox/utilgo
-cd cmd/codump
-go install
+# Clone the repository
+git clone https://github.com/toolvox/utilgo.git
+# Navigate to the directory
+cd ./toolvox/utilgo
+# Build and install codump
+go install ./cmd/codump
 ```
+
+Make sure you have Go installed on your system to build the tool.
 
 ## Usage
 
-`codump` operates with several command-line flags that allow users to specify the root directory, include and exclude patterns, and the output destination.
+Here are some examples demonstrating how to use `codump`.
 
-### Flags
+### Basic Usage
 
-- `-root <directory>`: The root directory from which to start the traversal. Defaults to the current directory.
-- `-include <patterns>`: A comma-separated list of glob patterns for files to include.
-- `-exclude <patterns>`: A comma-separated list of glob patterns for files to exclude.
-- `-out <filepath>`: The output file path for the aggregated content. Defaults to standard output if unspecified.
-
-### Example
-
-Compile `.go` and `.md` files from the `./project/target` directory, excluding anything in the `.git` directory:
+To compile all files from the current directory to standard output:
 
 ```sh
-$ codump -root "./project/target" -exclude ".git" -include "*.go,*.md"
+$ codump
 ```
+
+### Specifying Root Directory
+
+To start traversal from a specific directory:
+
+```sh
+$ codump -root "./project/target"
+```
+
+### Including and Excluding Files
+
+To only include `.go` and `.md` files, excluding any files in a `.git` directory:
+
+```sh
+$ codump -include "*.go,*.md" -exclude ".git/*"
+```
+
+### Output to a File
+
+To direct the aggregated content to a file named `aggregate.txt`:
+
+```sh
+$ codump -out "aggregate.txt"
+```
+
+## Example Output
+
+When aggregating `.go` and `.md` files, the output might look like this (assuming output to stdout):
+
+```
+--- ./project/target/main.go
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello, world!")
+}
+---
+--- ./project/target/README.md
+# Project Title
+
+This is a sample project.
+---
+```
+
+Each file's content is prefixed and suffixed with `---` and its path, clearly delineating where each file's content begins and ends.
+
+## Reporting Issues
+
+If you encounter any problems or have feature suggestions, please open an issue on the GitHub repository.
 
 ## License
 
-`codump` is made available under the [MIT License](../../LICENSE). For more details, see the LICENSE file in the repository.
-
-## Support
-
-For support, questions, or more information about using `codump`, please visit the project's issues page on GitHub.
+`codump` is released under the MIT License. For more details, see the [LICENSE](LICENSE) file in the repository.

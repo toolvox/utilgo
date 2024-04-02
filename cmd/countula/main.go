@@ -23,7 +23,7 @@
 //
 // Example Usage:
 //
-//	$ countula -root "./source" -out "count_report.txt" -include ".go,.js" -exclude "vendor/,.test.js" -ignore-prefix "//,#" -dir-mode
+//	$ countula -root "./source" -out "count_report.txt" -include "*.go,*.json,*.md" -exclude ".git" -ignore-prefix "//,#" -dir-mode
 package main
 
 import (

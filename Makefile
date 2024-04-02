@@ -1,11 +1,14 @@
 .SILENT:
 .PHONY: godoc diff dump cover count install install. gen
 
+TEST=./test
+
+COVERFILE = $(TEST)/cover.out
+
 godoc:
 	start "http://localhost:6060" ; \
 	godoc -http=:6060 -play -index 
 
-COVERFILE = test/cover.out
 
 diff:
 	(git diff --cached | tee diff) | clip ; \
@@ -28,9 +31,3 @@ install.codump:
 install.countula:
 	cd cmd/countula ; \
 	go install
-
-install: install.codump
-
-gen:
-	cd pkg/serialization/internal/gen/ ; \
-	go run . -fmt

@@ -1,4 +1,4 @@
-// package flagutil introduces supplementary [flag.Value] implementations for utilization with the go's [pkg/flag] package or [pkg/utilgo/pkg/flags] package.
+// Package flagutil introduces supplementary [flag.Value] implementations for utilization with the go's [pkg/flag] package or [pkg/utilgo/pkg/flags] package.
 package flagutil
 
 import (
