@@ -4,7 +4,7 @@ import (
 	"context"
 	"log/slog"
 
-	"utilgo/pkg/errs"
+	"github.com/toolvox/utilgo/pkg/errs"
 )
 
 // TeeHandler is a composite log handler that forwards log records to a slice of [pkg/log/slog.Handler].

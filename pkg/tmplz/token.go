@@ -5,7 +5,7 @@ import (
 	"strings"
 	"unicode"
 
-	"utilgo/pkg/stringutil"
+	"github.com/toolvox/utilgo/pkg/stringutil"
 )
 
 type String = stringutil.String

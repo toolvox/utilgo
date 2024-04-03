@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"utilgo/pkg/errs"
+	"github.com/toolvox/utilgo/pkg/errs"
 )
 
 // TestWrapperError FOO

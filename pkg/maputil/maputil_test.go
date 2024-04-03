@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"utilgo/pkg/maputil"
+	"github.com/toolvox/utilgo/pkg/maputil"
 )
 
 func TestSortedKeys(t *testing.T) {

@@ -3,7 +3,7 @@ package sets_test
 import (
 	"testing"
 
-	"utilgo/pkg/sets"
+	"github.com/toolvox/utilgo/pkg/sets"
 )
 
 func TestNewSet(t *testing.T) {

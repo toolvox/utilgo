@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"utilgo/pkg/maputil"
-	"utilgo/pkg/stringutil"
+	"github.com/toolvox/utilgo/pkg/maputil"
+	"github.com/toolvox/utilgo/pkg/stringutil"
 )
 
 var sortKeys = maputil.SortedKeys[map[string]*Template]

@@ -3,7 +3,7 @@ package sets_test
 import (
 	"fmt"
 
-	"utilgo/pkg/sets"
+	"github.com/toolvox/utilgo/pkg/sets"
 )
 
 func ExampleSet() {

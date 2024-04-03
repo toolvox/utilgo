@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"utilgo/pkg/errs"
+	"github.com/toolvox/utilgo/pkg/errs"
 )
 
 // ExampleType shows how a type can implement the Validator interface.

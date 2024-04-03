@@ -5,7 +5,7 @@ import (
 	"context"
 	"log/slog"
 
-	"utilgo/api"
+	"github.com/toolvox/utilgo/api"
 )
 
 // NullHandler is a no-op implementation of the [pkg/log/slog.Handler] interface that ignores any logging actions.

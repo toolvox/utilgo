@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"utilgo/pkg/sliceutil"
+	"github.com/toolvox/utilgo/pkg/sliceutil"
 )
 
 func TestCropIndex(t *testing.T) {

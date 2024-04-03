@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"utilgo/pkg/reflectutil"
+	"github.com/toolvox/utilgo/pkg/reflectutil"
 )
 
 func Test_IsZero(t *testing.T) {

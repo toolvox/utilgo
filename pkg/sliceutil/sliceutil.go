@@ -3,7 +3,7 @@ package sliceutil
 import (
 	"slices"
 
-	"utilgo/pkg/reflectutil"
+	"github.com/toolvox/utilgo/pkg/reflectutil"
 )
 
 // SelectFunc transforms each element of the input slice using the provided selector function and returns a new slice of the transformed elements.
@@ -24,7 +24,7 @@ func SelectFunc[E1 ~[]T1, E2 []T2, T1, T2 any](slice E1, selector func(T1) T2) E
 }
 
 // SelectNonZeroFunc transforms each element of the input slice using the provided selector function, then filters out any zero values from the resulting slice.
-// It leverages the Select function to perform the transformation and then uses [pkg/slices.DeleteFunc] from the slices package to remove zero values, with zero-ness determined by the [pkg/utilgo/pkg/reflectutil.IsZero] function.
+// It leverages the Select function to perform the transformation and then uses [pkg/slices.DeleteFunc] from the slices package to remove zero values, with zero-ness determined by the [pkg/github.com/toolvox/utilgo/pkg/reflectutil.IsZero] function.
 func SelectNonZeroFunc[E1 ~[]T1, E2 []T2, T1, T2 any](slice E1, selector func(T1) T2) E2 {
 	return slices.DeleteFunc(
 		SelectFunc[E1, E2](slice, selector),
@@ -83,19 +83,19 @@ func IndexFuncs[E ~[]T, T any](slice E, funcs ...func(T) bool) []int {
 // DeleteFuncs removes any elements from s for which any of the funcs returns true, returning the modified slice.
 // DeleteFuncs zeroes the elements between the new length and the original length.
 func DeleteFuncs[E ~[]T, T any](slice E, funcs ...func(T) bool) E {
-    indices := IndexFuncs(slice, funcs...)
-    if len(indices) == 0 {
-        return slice
-    }
+	indices := IndexFuncs(slice, funcs...)
+	if len(indices) == 0 {
+		return slice
+	}
 
-    delCount := 0
-    for i, idx := range indices {
-        adjIdx := idx - i
-        copy(slice[adjIdx:], slice[adjIdx+1:])
-        delCount++
-    }
+	delCount := 0
+	for i, idx := range indices {
+		adjIdx := idx - i
+		copy(slice[adjIdx:], slice[adjIdx+1:])
+		delCount++
+	}
 
-    newLength := len(slice) - delCount
-    clear(slice[newLength:])
-    return slice[:newLength]
+	newLength := len(slice) - delCount
+	clear(slice[newLength:])
+	return slice[:newLength]
 }

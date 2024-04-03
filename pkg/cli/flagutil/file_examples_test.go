@@ -7,10 +7,10 @@ import (
 	"os"
 	"path/filepath"
 
-	"utilgo/pkg/cli/flagutil"
+	"github.com/toolvox/utilgo/pkg/cli/flagutil"
 )
 
-// Typical use-case for [utilgo/pkg/flagutil.FileValue]
+// Typical use-case for [github.com/toolvox/utilgo/pkg/flagutil.FileValue]
 func ExampleFileValue() {
 	// Setup: initialization for example, can be ignored
 	tempDir := os.TempDir()
@@ -47,7 +47,7 @@ func ExampleFileValue() {
 	//     DEFAULT!
 }
 
-// Using the Reader method to read content from [utilgo/pkg/flagutil.FileValue].
+// Using the Reader method to read content from [github.com/toolvox/utilgo/pkg/flagutil.FileValue].
 func ExampleFileValue_Reader() {
 	// Setup: Create a mock FileValue
 	fv := flagutil.FileValue{"example.txt", []byte("Hello, world!")}

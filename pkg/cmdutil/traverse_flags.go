@@ -10,8 +10,8 @@ import (
 	"slices"
 	"strings"
 
-	"utilgo/pkg/cli/flagutil"
-	"utilgo/pkg/reflectutil"
+	"github.com/toolvox/utilgo/pkg/cli/flagutil"
+	"github.com/toolvox/utilgo/pkg/reflectutil"
 )
 
 // TraverseFlags encapsulates options for file system traversal and pattern matching.

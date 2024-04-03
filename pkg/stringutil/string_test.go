@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"utilgo/pkg/stringutil"
+	"github.com/toolvox/utilgo/pkg/stringutil"
 )
 
 type String = stringutil.String

@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"utilgo/pkg/cli/flagutil"
+	"github.com/toolvox/utilgo/pkg/cli/flagutil"
 )
 
 func ExampleOutputFileValue() {

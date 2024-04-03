@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"testing"
 
-	"utilgo/pkg/randutil"
+	"github.com/toolvox/utilgo/pkg/randutil"
 )
 
 func Test_Derange(t *testing.T) {

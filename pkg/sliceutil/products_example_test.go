@@ -3,7 +3,7 @@ package sliceutil_test
 import (
 	"fmt"
 
-	"utilgo/pkg/sliceutil"
+	"github.com/toolvox/utilgo/pkg/sliceutil"
 )
 
 func ExamplePowerSet() {

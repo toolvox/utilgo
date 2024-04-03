@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"slices"
 
-	"utilgo/pkg/errs"
+	"github.com/toolvox/utilgo/pkg/errs"
 )
 
 // GlobMatcher holds patterns for inclusion and exclusion of file paths.

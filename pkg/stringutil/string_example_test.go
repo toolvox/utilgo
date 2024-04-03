@@ -3,7 +3,7 @@ package stringutil_test
 import (
 	"fmt"
 
-	"utilgo/pkg/stringutil"
+	"github.com/toolvox/utilgo/pkg/stringutil"
 )
 
 func ExampleString() {

@@ -3,8 +3,8 @@ package lexer
 import (
 	"strings"
 
-	"utilgo/pkg/sets"
-	"utilgo/pkg/stringutil"
+	"github.com/toolvox/utilgo/pkg/sets"
+	"github.com/toolvox/utilgo/pkg/stringutil"
 )
 
 // FlagTokenizer holds the names of the boolean flags and uses them the tokenize the input args into args and actions.

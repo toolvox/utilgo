@@ -8,8 +8,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"utilgo/pkg/stringutil"
-	. "utilgo/pkg/tmplz"
+	"github.com/toolvox/utilgo/pkg/stringutil"
+	. "github.com/toolvox/utilgo/pkg/tmplz"
 )
 
 func DoOrDie(assert *assert.Assertions, expected, actual, name string) {

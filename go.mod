@@ -1,4 +1,4 @@
-module utilgo
+module github.com/toolvox/utilgo
 
 go 1.22.0
 

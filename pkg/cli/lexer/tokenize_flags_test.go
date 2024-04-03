@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"utilgo/pkg/cli/lexer"
+	"github.com/toolvox/utilgo/pkg/cli/lexer"
 )
 
 var tests = []struct {

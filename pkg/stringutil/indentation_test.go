@@ -2,7 +2,8 @@ package stringutil_test
 
 import (
 	"testing"
-	"utilgo/pkg/stringutil"
+
+	"github.com/toolvox/utilgo/pkg/stringutil"
 
 	"github.com/stretchr/testify/require"
 )

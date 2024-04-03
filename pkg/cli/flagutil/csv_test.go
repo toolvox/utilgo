@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"utilgo/pkg/cli/flagutil"
+	"github.com/toolvox/utilgo/pkg/cli/flagutil"
 )
 
 func TestCSVValue(t *testing.T) {

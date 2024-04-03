@@ -3,7 +3,7 @@ package cmds
 import (
 	"flag"
 
-	"utilgo/pkg/errs"
+	"github.com/toolvox/utilgo/pkg/errs"
 )
 
 // GoFlag wraps a go [pkg/flag.Flag] making it compatible with this package.

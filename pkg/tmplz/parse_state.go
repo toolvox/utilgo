@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"utilgo/pkg/errs"
+	"github.com/toolvox/utilgo/pkg/errs"
 )
 
 // ParseState represents the state of parsing a template string, tracking tokens and cursor position.
@@ -90,7 +90,7 @@ func (s *ParseState) Parse(from int, root *Node) (*Node, int, error) {
 		switch t := s.NextToken(); t.Kind {
 		case TokenEOF:
 			root.AppendOmega(false)
-			return root, t.Pos+1, nil
+			return root, t.Pos + 1, nil
 
 		case TokenAlpha:
 			node, next, err := s.Parse(s.Cursor, root)

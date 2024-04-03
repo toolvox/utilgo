@@ -3,7 +3,7 @@ package stringutil
 import (
 	"slices"
 
-	"utilgo/pkg/sliceutil"
+	"github.com/toolvox/utilgo/pkg/sliceutil"
 )
 
 // String represents a string as a slice of runes.

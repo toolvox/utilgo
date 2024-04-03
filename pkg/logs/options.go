@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"utilgo/pkg/timeutil"
+	"github.com/toolvox/utilgo/pkg/timeutil"
 )
 
 // LoggingOptions defines options for configuring log handlers.

@@ -9,8 +9,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"utilgo/pkg/cli/flagutil"
-	"utilgo/pkg/errs"
+	"github.com/toolvox/utilgo/pkg/cli/flagutil"
+	"github.com/toolvox/utilgo/pkg/errs"
 )
 
 func TestFileValue(t *testing.T) {

@@ -6,8 +6,8 @@ import (
 	"slices"
 	"testing"
 
-	"utilgo/pkg/reflectutil"
-	"utilgo/pkg/sliceutil"
+	"github.com/toolvox/utilgo/pkg/reflectutil"
+	"github.com/toolvox/utilgo/pkg/sliceutil"
 
 	"github.com/stretchr/testify/require"
 )

@@ -4,7 +4,7 @@ import (
 	"io"
 	"os"
 
-	"utilgo/pkg/errs"
+	"github.com/toolvox/utilgo/pkg/errs"
 )
 
 // OutputFileValue is a command-line flag that handles an output file.

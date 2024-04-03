@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"slices"
 
-	"utilgo/pkg/reflectutil"
+	"github.com/toolvox/utilgo/pkg/reflectutil"
 )
 
 // WrappedError represents an error that wraps another error with an additional message.

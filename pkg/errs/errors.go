@@ -5,7 +5,7 @@ import (
 	"slices"
 	"strings"
 
-	"utilgo/pkg/reflectutil"
+	"github.com/toolvox/utilgo/pkg/reflectutil"
 )
 
 // [Errors] is a slice of errors intended for easily aggregating errors into a single error.

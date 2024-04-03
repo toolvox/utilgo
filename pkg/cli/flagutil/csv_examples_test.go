@@ -6,10 +6,10 @@ import (
 	"os"
 	"strconv"
 
-	"utilgo/pkg/cli/flagutil"
+	"github.com/toolvox/utilgo/pkg/cli/flagutil"
 )
 
-// Typical use-cases for [utilgo/pkg/CSVValue]
+// Typical use-cases for [github.com/toolvox/utilgo/pkg/CSVValue]
 func ExampleCSVValue() {
 	// Setup: Simulate command line flag input
 	os.Args = []string{"cmd", "-csv", "1,2,3,4,5"}
@@ -33,7 +33,7 @@ func ExampleCSVValue() {
 	// Float values: [1 2 3 4 5]
 }
 
-// Using the [utilgo/pkg/CSVValue.ParseCSV] function to convert CSV string values to a custom type using a custom parser.
+// Using the [github.com/toolvox/utilgo/pkg/CSVValue.ParseCSV] function to convert CSV string values to a custom type using a custom parser.
 func ExampleParseCSV() {
 	// Setup:
 	var csv flagutil.CSVValue

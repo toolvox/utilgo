@@ -5,7 +5,7 @@ package tmplz
 import (
 	"fmt"
 
-	"utilgo/pkg/errs"
+	"github.com/toolvox/utilgo/pkg/errs"
 )
 
 // ParseTemplates is similar to [ParseTemplates] but includes logging support.

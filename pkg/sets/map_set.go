@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strings"
 
-	"utilgo/api"
+	"github.com/toolvox/utilgo/api"
 )
 
 // Unit type for the set implementation.

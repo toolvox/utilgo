@@ -30,4 +30,3 @@ func Derange(rng *rand.Rand, n int) []int {
 
 	return arr
 }
-

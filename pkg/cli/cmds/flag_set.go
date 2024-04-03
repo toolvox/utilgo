@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"utilgo/pkg/cli/lexer"
-	"utilgo/pkg/errs"
-	"utilgo/pkg/sliceutil"
+	"github.com/toolvox/utilgo/pkg/cli/lexer"
+	"github.com/toolvox/utilgo/pkg/errs"
+	"github.com/toolvox/utilgo/pkg/sliceutil"
 )
 
 // FlagSet is a collection of [Flag]s.

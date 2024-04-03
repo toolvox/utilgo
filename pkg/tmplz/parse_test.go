@@ -6,8 +6,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"utilgo/pkg/errs"
-	. "utilgo/pkg/tmplz"
+	"github.com/toolvox/utilgo/pkg/errs"
+	. "github.com/toolvox/utilgo/pkg/tmplz"
 )
 
 func Test_Parse(t *testing.T) {

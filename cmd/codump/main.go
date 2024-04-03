@@ -28,11 +28,11 @@ import (
 	"log/slog"
 	"os"
 
-	"utilgo/pkg/cli/flagutil"
-	"utilgo/pkg/cmdutil"
-	"utilgo/pkg/errs"
-	"utilgo/pkg/fsutil"
-	"utilgo/pkg/logs"
+	"github.com/toolvox/utilgo/pkg/cli/flagutil"
+	"github.com/toolvox/utilgo/pkg/cmdutil"
+	"github.com/toolvox/utilgo/pkg/errs"
+	"github.com/toolvox/utilgo/pkg/fsutil"
+	"github.com/toolvox/utilgo/pkg/logs"
 )
 
 const Version = "v0.1.0"

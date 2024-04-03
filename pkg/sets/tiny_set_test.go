@@ -5,8 +5,8 @@ import (
 	"log"
 	"reflect"
 	"testing"
-	
-	"utilgo/pkg/sets"
+
+	"github.com/toolvox/utilgo/pkg/sets"
 )
 
 func TestTinySet(t *testing.T) {
