@@ -22,3 +22,17 @@ func NewLogger(loggers ...LoggingOptions) *slog.Logger {
 	}
 	return slog.New(lh.NewTeeHandler(handlers...))
 }
+
+func NewFrom(handlers ...any) *slog.Logger {
+	var realHandlers []slog.Handler
+
+	for _, logger := range handlers {
+		switch x := logger.(type) {
+		case slog.Handler:
+			realHandlers = append(realHandlers, x)
+		case lh.Handler:
+			realHandlers = append(realHandlers, x.Handler())
+		}
+	}
+	return slog.New(lh.NewTeeHandler(realHandlers...))
+}
