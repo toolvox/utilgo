@@ -44,7 +44,7 @@ import (
 	"github.com/toolvox/utilgo/pkg/reflectutil"
 )
 
-const Version = "v0.1.0"
+const Version = "v0.1.1"
 
 type countulaOpts struct {
 	cmdutil.TraverseFlags
@@ -53,6 +53,8 @@ type countulaOpts struct {
 	OutputFile       flagutil.OutputFileValue
 	DirMode          bool
 	MergeMode        bool
+
+	Debug bool
 }
 
 func main() {
@@ -62,9 +64,18 @@ func main() {
 	flag.Var(&o.IgnoreLinePrefix, "ignore-prefix", "line prefixes that trigger skipping the line (comma separated)")
 	flag.BoolVar(&o.DirMode, "dir-mode", false, "Group result by sub-directory")
 	flag.BoolVar(&o.MergeMode, "merge-mode", false, "Don't split by extension")
+	flag.BoolVar(&o.Debug, "debug", false, "print debug logs")
+
 	flag.Parse()
 
-	log := logs.NewLogger(logs.LoggingOptions{Level: slog.LevelDebug})
+	var level slog.Level = slog.LevelInfo
+	if o.Debug {
+		level = slog.LevelDebug
+	}
+
+	log := logs.NewLogger(
+		logs.HandlerConfig{Options: logs.LogLevelOption(level)},
+	)
 	log.Info("started countula", slog.String("version", Version))
 	if err := run(o, log); err != nil {
 		log.Error("codump failed", logs.Error(err))
@@ -73,36 +84,38 @@ func main() {
 }
 
 func run(o countulaOpts, log *slog.Logger) error {
-	// 1. Get Output Writer
+	log.Debug("get output writer for", slog.String("output file", o.OutputFile.Filename))
 	writer := o.OutputFile.Writer()
 	if writer == nil {
 		return errs.New("error obtaining output writer")
 	}
 	defer writer.Close()
 
-	// 2. Isolate the target FS
+	log.Debug("isolating target fs")
 	fsys := o.RootFS()
 
-	// 3. Attempt to load the ignores
+	log.Debug("loading ignores")
 	ignores, err := o.Ignores(fsys)
 	if err != nil {
 		log.Warn("could not read ignore file", logs.Error(err))
 	}
 
-	// 4. Load includes/excludes
+	log.Debug("includes/exclude from flags")
+
 	includes := o.IncludeGlobs.Values
 	log.Info("include globs", slog.Any("patterns", includes))
 	excludes := append(o.ExcludeGlobs.Values, ignores...)
 	excludes = append(excludes, o.OutputFile.String())
 	log.Info("excluding globs", slog.Any("patterns", excludes))
 
-	// 5. Create Matcher
+	log.Debug("create matcher")
 	matcher := fsutil.NewGlobMatcher(includes, excludes)
 	skipPrefixes := o.IgnoreLinePrefix.Values
 	counts := map[string]map[string]int{}
 
-	// 6. Count eligible lines
+	log.Debug("count lines")
 	matcher.WalkFS(fsys, func(path string, content []byte) error {
+		log.Debug("scanning file", slog.String("path", path))
 		ext := filepath.Ext(path)
 		if ext == "" {
 			ext = filepath.Base(path)
@@ -133,7 +146,7 @@ func run(o countulaOpts, log *slog.Logger) error {
 		return nil
 	})
 
-	// 7. Print summary
+	log.Debug("print summary")
 	writer.Write([]byte(renderCounts(counts, o.DirMode, o.MergeMode)))
 
 	return nil

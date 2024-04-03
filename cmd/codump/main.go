@@ -49,7 +49,9 @@ func main() {
 	flag.Var(&o.OutputFile, "out", "Output file path. Defaults to stdout if empty")
 	flag.Parse()
 
-	log := logs.NewLogger(logs.LoggingOptions{Level: slog.LevelDebug})
+	log := logs.NewLogger(
+		logs.HandlerConfig{Options: logs.LogLevelOption(slog.LevelDebug)},
+	)
 	log.Info("started codump", slog.String("version", Version))
 	if err := run(o, log); err != nil {
 		log.Error("codump failed", logs.Error(err))

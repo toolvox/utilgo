@@ -14,16 +14,11 @@ func NewNullLogger() *slog.Logger { return slog.New(lh.NullHandler{}) }
 
 // NewLogger creates a new [pkg/log/slog.Logger] that combines multiple logging handlers into a [pkg/github.com/toolvox/utilgo/pkg/logs/handlers.TeeHandler].
 // This allows log messages to be dispatched to multiple handlers, each potentially with different logging configurations.
+//
+// Use [HandlerConfig](s), to configure new loggers.
+//
 // if no handlers are provided, returns a [NewNullLogger].
-func NewLogger(loggers ...LoggingOptions) *slog.Logger {
-	var handlers []slog.Handler
-	for _, logger := range loggers {
-		handlers = append(handlers, logger.Handler())
-	}
-	return slog.New(lh.NewTeeHandler(handlers...))
-}
-
-func NewFrom(handlers ...any) *slog.Logger {
+func NewLogger(handlers ...any) *slog.Logger {
 	var realHandlers []slog.Handler
 
 	for _, logger := range handlers {

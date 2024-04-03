@@ -1,3 +1,4 @@
+// Package lexel contains [FlagTokenizer] which parses args/actions
 package lexer
 
 import (

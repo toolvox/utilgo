@@ -6,7 +6,7 @@ package cmds
 // FlagValue is an interface to a value that can be set via flags.
 // Compatible with go's [pkg/flag.Value] and [pkg/flag.Getter] interfaces.
 //
-// The result of calling [String] before [Set] is used to represent the default value.
+// The result of calling String before Set is used to represent the default value.
 //
 // Boolean flags (which don't require an explicit value) must be marked by implementing:
 //
