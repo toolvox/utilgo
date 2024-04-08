@@ -15,7 +15,7 @@ func (e Error) Error() string { return string(e) }
 func New(s string) error { return Error(s) }
 
 // Newf creates a plain text error from a formatted string (using [Error] as the backing type).
-// It's a convenient wrapper around [fmt.Sprintf], allowing for the creation of formatted error messages without needing [fmt.Errorf]'s '%u'.
+// It's a convenient wrapper around [fmt.Sprintf], allowing for the creation of formatted error messages without needing [fmt.Errorf].
 func Newf(format string, args ...any) error {
 	return Error(fmt.Sprintf(format, args...))
 }

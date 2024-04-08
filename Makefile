@@ -22,7 +22,7 @@ cover:
 	(head -n 1 $(COVERFILE) && tail -n +2 $(COVERFILE) | sort -V) > $(COVERFILE).tmp && mv $(COVERFILE).tmp $(COVERFILE)
 
 count: 
-	countula -debug -ignore ".gitignore" -exclude "**zz_**,.git,*.sum,*.out,*.mod,test/cover.out,LICENSE,lines" -ignore-prefix "//" > lines
+	countula -ignore ".gitignore" -exclude "**zz_**,.git,*.sum,*.out,*.mod,test/cover.out,LICENSE,lines" -ignore-prefix "//" > lines
 
 install.codump:
 	cd cmd/codump ; \

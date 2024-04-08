@@ -1,6 +1,7 @@
 package errs
 
 import (
+	"errors"
 	"fmt"
 	"slices"
 
@@ -22,11 +23,25 @@ func (e WrappedError) Error() string { return fmt.Sprintf("%s: %s", e.Message, e
 // facilitating error inspection and handling.
 func (e WrappedError) Unwrap() error { return e.Wrapped }
 
+// Is reports whether any error in [WrappedError]'s tree matches target.
 func (e WrappedError) Is(target error) bool {
-	return e.Error() == target.Error()
+	if we, ok := target.(WrappedError); ok {
+		return we.Message == e.Message
+	}
+	return errors.Is(e.Wrapped, target)
 }
 
-// Wraps takes a string wrapper and a variadic slice of errors to create a new [WrappedError].
+// As finds the first error in [WrappedError]'s tree that matches target, and if one is found, sets target to that error value and returns true.
+// Otherwise, it returns false.
+func (e WrappedError) As(target any) bool {
+	if _, ok := target.(WrappedError); ok {
+		target = e
+		return true
+	}
+	return errors.As(e.Wrapped, target)
+}
+
+// Wrap takes a string wrapper and a variadic slice of errors to create a new [WrappedError].
 // Any passed errors that are nil are discarded.
 // Returns a [WrappedError] containing filtered error(s) or nil or no valid errors were passed.
 func Wrap(wrapper string, errs ...error) error {
@@ -49,6 +64,9 @@ func Wrap(wrapper string, errs ...error) error {
 	}
 }
 
+// Wrapf takes a string wrapper and a variadic slice of args and errors to create a new [WrappedError].
+// nil errors may be interpreted as additional args.
+// Returns a [WrappedError] containing filtered error(s) or nil or no valid errors were passed.
 func Wrapf(wrapperFormat string, argsAndErrs ...any) error {
 	split := len(argsAndErrs)
 	var errs []error

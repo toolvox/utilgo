@@ -1,4 +1,3 @@
-// Package fsutil provides helpers and utilities for working with Files and FileSystems.
 package fsutil
 
 import (
