@@ -2,10 +2,12 @@
 package sets
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 
 	"github.com/toolvox/utilgo/pkg/sliceutil"
+	"gopkg.in/yaml.v3"
 )
 
 // TinySet represents a set of elements of type C using a slice for storage.
@@ -13,30 +15,48 @@ import (
 type TinySet[C comparable] []C
 
 // NewTinySet initializes a new [TinySet] with the given elements, ensuring uniqueness.
-func NewTinySet[C comparable](elements ...C) TinySet[C] {
+func NewTinySet[C comparable](elements ...C) *TinySet[C] {
 	result := TinySet[C]{}
 	for _, e := range elements {
 		result.Add(e)
 	}
-	return result
+	return &result
 }
 
-// String provides a string representation of the [TinySet].
+// String returns the string representation of the [TinySet].
 func (tinySet TinySet[C]) String() string {
-	var elems []string
-	for _, elem := range tinySet {
-		elems = append(elems, fmt.Sprintf("%v", elem))
+	var sb strings.Builder
+	sb.WriteRune('{')
+	for i, e := range tinySet {
+		if i != 0 {
+			sb.WriteRune(',')
+		}
+		sb.WriteRune(' ')
+		fmt.Fprint(&sb, e)
 	}
-	return fmt.Sprintf("{%s}", strings.Join(elems, ", "))
+	sb.WriteRune(' ')
+	sb.WriteRune('}')
+	return sb.String()
 }
 
 // Len counts the elements in the [TinySet].
 func (tinySet TinySet[C]) Len() int { return len(tinySet) }
 
-// Elements returns the contained elements.
+// Elements returns the unique elements of the [TinySet].
 func (tinySet TinySet[C]) Elements() []C { return tinySet }
 
-// Contains checks if an element exists in the [TinySet].
+// Add unique elements to the [TinySet].
+// Repeated elements will be discarded.
+func (tinySet *TinySet[C]) Add(elements ...C) {
+
+	for _, elem := range elements {
+		if !tinySet.Contains(elem) {
+			*tinySet = append(*tinySet, elem)
+		}
+	}
+}
+
+// Contains checked whether all elements are in the [TinySet].
 func (tinySet TinySet[C]) Contains(elements ...C) bool {
 outer:
 	for _, e := range elements {
@@ -50,28 +70,15 @@ outer:
 	return true
 }
 
-// Add inserts new unique elements into the [TinySet].
-func (tinySet *TinySet[C]) Add(elements ...C) {
-	for _, elem := range elements {
-		if !tinySet.Contains(elem) {
-			*tinySet = append(*tinySet, elem)
-		}
-	}
-}
-
-// Remove elements from the [TinySet].
+// Remove any existing elements from the [TinySet].
 func (tinySet *TinySet[C]) Remove(elements ...C) {
 	*tinySet = sliceutil.CropElements(*tinySet, elements...)
 }
 
 // Union merges the current set with another set and returns the result as a new [TinySet].
 func (tinySet TinySet[C]) Union(other TinySet[C]) TinySet[C] {
-	result := NewTinySet(tinySet...) // Start with a copy of the current set
-	for _, elem := range other {
-		if !result.Contains(elem) {
-			result = append(result, elem)
-		}
-	}
+	result := *NewTinySet(tinySet...) // Start with a copy of the current set
+	result.Add(other.Elements()...)
 	return result
 }
 
@@ -109,7 +116,7 @@ func (tinySet TinySet[C]) ThreeWay(other TinySet[C]) [3]TinySet[C] {
 // UnionWith adds multiple elements to the set and returns the resulting set.
 // This operation does not modify the original set but returns a new one.
 func (tinySet TinySet[C]) UnionWith(elements ...C) TinySet[C] {
-	result := NewTinySet(tinySet...) // Start with a copy of the current set
+	result := *NewTinySet(tinySet...) // Start with a copy of the current set
 	for _, elem := range elements {
 		if !result.Contains(elem) {
 			result = append(result, elem)
@@ -120,12 +127,60 @@ func (tinySet TinySet[C]) UnionWith(elements ...C) TinySet[C] {
 
 // IntersectionWith returns a new [TinySet] containing elements that exist in both this set and the provided elements.
 func (tinySet TinySet[C]) IntersectionWith(elements ...C) TinySet[C] {
-	other := NewTinySet(elements...)
+	other := *NewTinySet(elements...)
 	return tinySet.Intersection(other)
 }
 
 // DifferenceWith returns a new [TinySet] containing elements present in this set but not among the provided elements.
 func (tinySet TinySet[C]) DifferenceWith(elements ...C) TinySet[C] {
-	other := NewTinySet(elements...)
+	other := *NewTinySet(elements...)
 	return tinySet.Difference(other)
+}
+
+// MarshalJSON converts the [TinySet] to a JSON array.
+func (tinySet TinySet[T]) MarshalJSON() ([]byte, error) {
+	slice := make([]T, 0, len(tinySet))
+	for _, key := range tinySet {
+		slice = append(slice, key)
+	}
+
+	return json.Marshal(slice)
+}
+
+// UnmarshalJSON converts the JSON []byte to a [TinySet].
+func (tinySet *TinySet[T]) UnmarshalJSON(data []byte) error {
+	var slice []T
+	if err := json.Unmarshal(data, &slice); err != nil {
+		return err
+	}
+	if *tinySet == nil {
+		n := NewTinySet(slice...)
+		*tinySet = *n
+	}
+	return nil
+}
+
+// MarshalYAML converts the [TinySet] to a YAML array.
+func (tinySet TinySet[T]) MarshalYAML() (interface{}, error) {
+	slice := make([]T, 0, len(tinySet))
+	for _, key := range tinySet {
+		slice = append(slice, key)
+	}
+	return slice, nil
+}
+
+// UnmarshalYAML converts the YAML [yaml.Node] (representing a YAML list) to a [TinySet].
+func (tinySet *TinySet[T]) UnmarshalYAML(value *yaml.Node) error {
+	var slice []T
+	err := value.Decode(&slice)
+	if err != nil {
+		return err
+	}
+	if *tinySet == nil {
+		n := NewTinySet[T](slice...)
+		*tinySet = *n
+	} else {
+		tinySet.Add(slice...)
+	}
+	return nil
 }

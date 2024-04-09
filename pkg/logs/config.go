@@ -44,6 +44,8 @@ type HandlerBase interface {
 }
 
 // JsonHandler is a HandlerBase for creating JSON format log handlers.
+//
+// JsonHandler is the default base and may be omitted.
 type JsonHandler struct{}
 
 func (base JsonHandler) GetHandler(target HandlerTarget, options *slog.HandlerOptions) slog.Handler {
@@ -88,6 +90,8 @@ func (target StdoutTarget) GetTarget() io.Writer {
 }
 
 // StderrTarget outputs logs to standard error.
+//
+// StderrTarget is the default target and may be omitted.
 type StderrTarget struct{}
 
 func (target StderrTarget) GetTarget() io.Writer {
@@ -141,6 +145,8 @@ func (o HandlerOptions) SetOptions(opt *slog.HandlerOptions) {
 }
 
 // LogLevelOption sets the logging level for a handler.
+//
+// By default, the log level is Info.
 type LogLevelOption slog.Level
 
 func (o LogLevelOption) SetOptions(opt *slog.HandlerOptions) {

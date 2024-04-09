@@ -1,4 +1,4 @@
-// Package lexel contains [FlagTokenizer] which parses args/actions
+// Package lexer contains [FlagTokenizer] which parses args/actions
 package lexer
 
 import (
@@ -21,7 +21,7 @@ type FlagTokenizer struct {
 // NewFlagTokenizer creates a new [FlagTokenizer] from a list of boolean flag names
 func NewFlagTokenizer(booleanFlags ...string) *FlagTokenizer {
 	return &FlagTokenizer{
-		BooleanFlags: sets.NewTinySet(booleanFlags...),
+		BooleanFlags: *sets.NewTinySet(booleanFlags...),
 		Tokenized:    map[string]string{},
 		Actions:      []string{},
 	}

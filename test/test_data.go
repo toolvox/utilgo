@@ -22,22 +22,52 @@ type TypedTestData[A any] interface {
 	Element(i int) A
 }
 
-// TestDataForAny implements [TypedTestData] by holding a func.
+// TestDataFor implements [TypedTestData] by holding a func.
 //
 // For a simple case of int:
 //
-//	var intData = TestDataForAny[int]{ ElementFunc: func(i int) int { return i } }
+//	var intData = TestDataFor[int]{ ElementFunc: func(i int) int { return i } }
 //
 // For a case of string:
 //
-//	var stringData = TestDataForAny[string]{ ElementFunc: func(i int) string { return fmt.Sprint(i) } }
+//	var stringData = TestDataFor[string]{ ElementFunc: func(i int) string { return fmt.Sprint(i) } }
 //
 // Definition:
-type TestDataForAny[A any] struct {
+type TestDataFor[A any] struct {
 	ElementFunc func(i int) A
 }
 
 // Element gets an indexed element of the type by invoking the function.
-func (d TestDataForAny[A]) Element(i int) A {
+func (d TestDataFor[A]) Element(i int) A {
 	return d.ElementFunc(i)
+}
+// TypedTestConstructor is an interface for creating new instances of a type.
+//
+// Usage:
+//
+//	type MyTypeConstructor struct{}
+//
+//	func (MyTypeConstructor) New() MyType {
+//	    return MyType{} // Return a new MyType instance
+//	}
+//
+// Definition:
+type TypedTestConstructor[A any] interface {
+	New() A 
+}
+
+// TestConstructorFor provides a concrete implementation of TypedTestConstructor.
+//
+// Usage:
+//
+//	var intConstructor = TestConstructorFor[int]{ NewFunc: func() int { return 0 } }
+//
+// Definition:
+type TestConstructorFor[A any] struct {
+	NewFunc func() A 
+}
+
+// New calls NewFunc to create and return a new instance of A.
+func (c TestConstructorFor[A]) New() A {
+	return c.NewFunc()
 }

@@ -1,22 +1,63 @@
 package sets_test
 
 import (
+	"encoding/json"
 	"fmt"
-	"log"
 	"reflect"
 	"testing"
 
+	"github.com/stretchr/testify/require"
 	"github.com/toolvox/utilgo/pkg/sets"
+	"github.com/toolvox/utilgo/test"
+	test_sets "github.com/toolvox/utilgo/test/sets_test"
+	"gopkg.in/yaml.v3"
 )
+
+func Test_TinySet(t *testing.T) {
+	t.Run("int", func(t *testing.T) {
+		t.Run("new", func(t *testing.T) {
+			testSet := sets.NewTinySet(0, 1, 2, 3, 1, 3, 5)
+			require.True(t, testSet.Contains(1, 2, 3, 5))
+		})
+		test_sets.Run_Test_Set(t,
+			test.TestConstructorFor[*sets.TinySet[int]]{
+				NewFunc: func() *sets.TinySet[int] {
+					return sets.NewTinySet[int]()
+				},
+			},
+			test.TestDataFor[int]{
+				ElementFunc: func(i int) int { return i },
+			},
+			100,
+		)
+	})
+	t.Run("string", func(t *testing.T) {
+		t.Run("new", func(t *testing.T) {
+			testSet := sets.NewTinySet("0", "1", "2", "3", "1", "3", "5")
+			require.True(t, testSet.Contains("1", "2", "3", "5"))
+		})
+		test_sets.Run_Test_Set(t,
+			test.TestConstructorFor[*sets.TinySet[string]]{
+				NewFunc: func() *sets.TinySet[string] {
+					return sets.NewTinySet[string]()
+				},
+			},
+			test.TestDataFor[string]{
+				ElementFunc: func(i int) string { return fmt.Sprint(i) },
+			},
+			100,
+		)
+	})
+}
 
 func TestTinySet(t *testing.T) {
 	tests := []struct {
 		name          string
 		operation     string
-		set1          sets.TinySet[int]
-		set2          sets.TinySet[int]
+		set1          *sets.TinySet[int]
+		set2          *sets.TinySet[int]
 		addElements   []int
-		expected      interface{}
+		expected      *sets.TinySet[int]
 		expectedThree [3]sets.TinySet[int]
 	}{
 		{
@@ -67,23 +108,10 @@ func TestTinySet(t *testing.T) {
 			set1:      sets.NewTinySet(1, 2),
 			set2:      sets.NewTinySet(2, 3),
 			expectedThree: [3]sets.TinySet[int]{
-				sets.NewTinySet(2), // Common
-				sets.NewTinySet(1), // Only in set1
-				sets.NewTinySet(3), // Only in set2
+				*sets.NewTinySet(2), // Common
+				*sets.NewTinySet(1), // Only in set1
+				*sets.NewTinySet(3), // Only in set2
 			},
-		},
-		{
-			name:        "Contains",
-			operation:   "Contains",
-			set1:        sets.NewTinySet(1, 2, 3),
-			addElements: []int{2},
-			expected:    true,
-		},
-		{
-			name:      "String representation",
-			operation: "String",
-			set1:      sets.NewTinySet(1, 2, 3),
-			expected:  "{1, 2, 3}",
 		},
 	}
 
@@ -93,19 +121,19 @@ func TestTinySet(t *testing.T) {
 
 			switch tc.operation {
 			case "Union":
-				result = tc.set1.Union(tc.set2)
+				result = tc.set1.Union(*tc.set2)
 			case "UnionWith":
 				result = tc.set1.UnionWith(tc.addElements...)
 			case "Intersection":
-				result = tc.set1.Intersection(tc.set2)
+				result = tc.set1.Intersection(*tc.set2)
 			case "IntersectionWith":
 				result = tc.set1.IntersectionWith(tc.addElements...)
 			case "Difference":
-				result = tc.set1.Difference(tc.set2)
+				result = tc.set1.Difference(*tc.set2)
 			case "DifferenceWith":
 				result = tc.set1.DifferenceWith(tc.addElements...)
 			case "ThreeWay":
-				result = tc.set1.ThreeWay(tc.set2)
+				result = tc.set1.ThreeWay(*tc.set2)
 				if !reflect.DeepEqual(result, tc.expectedThree) {
 					t.Errorf("Expected %v, got %v", tc.expectedThree, result)
 				}
@@ -116,139 +144,49 @@ func TestTinySet(t *testing.T) {
 				result = tc.set1.String()
 			}
 
-			if !reflect.DeepEqual(result, tc.expected) {
+			if !reflect.DeepEqual(result, *tc.expected) {
 				t.Errorf("Expected %v, got %v", tc.expected, result)
 			}
 		})
 	}
 }
 
-func strElement(i int) string {
-	return fmt.Sprint(i)
-}
-
-func strElements(from, to int) []string {
-	var res []string
-	for i := from; i < to; i++ {
-		res = append(res, strElement(i))
-	}
-	return res
-}
-
-func Benchmark_TinySet_New(b *testing.B) {
-	for N := 5; N < 100; N += 25 {
-		b.Run(fmt.Sprintf("Specific_%03d", N), func(b *testing.B) {
-			elements1 := strElements(0, N)
-			log.Println()
-			b.Run("New0", func(b *testing.B) {
-				for i := 0; i < b.N; i++ {
-					sets.NewTinySet(elements1...)
-				}
-			})
-
-			b.Run("New1", func(b *testing.B) {
-				for i := 0; i < b.N; i++ {
-					sets.NewTinySet(elements1...)
-				}
-			})
-
-			b.Run("New2", func(b *testing.B) {
-				for i := 0; i < b.N; i++ {
-					sets.NewTinySet(elements1...)
-				}
-			})
-
-			log.Println()
+func Test_TinySet_Encoding(t *testing.T) {
+	testSet := sets.NewTinySet("hello", "goodbye", "salute")
+	t.Run("YAML", func(t *testing.T) {
+		var bs []byte
+		var err error
+		t.Run("Marshal", func(t *testing.T) {
+			bs, err = yaml.Marshal(testSet)
+			require.NoError(t, err)
+			for _, v := range *testSet {
+				require.Contains(t, string(bs), v)
+			}
 		})
-	}
-}
-
-func Benchmark_TinySet_Contains(b *testing.B) {
-	for N := 5; N < 100; N += 25 {
-		b.Run(fmt.Sprintf("Specific_%03d", N), func(b *testing.B) {
-			elements1 := strElements(0, N)
-			elements2 := strElements(N/2, 2*N)
-
-			log.Println()
-			b.Run("Contains0", func(b *testing.B) {
-				tSet := sets.NewTinySet(elements1...)
-				b.ResetTimer()
-				for i := 0; i < b.N; i++ {
-					_ = tSet.Contains(elements1[1])
-					for _, v := range elements2 {
-						_ = tSet.Contains(v)
-					}
-				}
-			})
-
-			b.Run("Contains1", func(b *testing.B) {
-				tSet := sets.NewTinySet(elements1...)
-				b.ResetTimer()
-				for i := 0; i < b.N; i++ {
-					_ = tSet.Contains(elements1[1])
-					for _, v := range elements2 {
-						_ = tSet.Contains(v)
-					}
-				}
-			})
-
-			log.Println()
+		t.Run("Unmarshal", func(t *testing.T) {
+			var cycleSet *sets.TinySet[string]
+			err = yaml.Unmarshal(bs, &cycleSet)
+			require.NoError(t, err)
+			require.Equal(t, testSet, cycleSet)
 		})
-	}
-}
+	})
 
-func Benchmark_TinySet_Add(b *testing.B) {
-	for N := 5; N < 100; N += 25 {
-		b.Run(fmt.Sprintf("Specific_%03d", N), func(b *testing.B) {
-			elements1 := strElements(0, N)
-			elements2 := strElements(N/2, 2*N)
-
-			b.Run("Add0/Batch", func(b *testing.B) {
-				tSet := sets.NewTinySet(elements1...)
-				for i := 0; i < b.N; i++ {
-					tSet.Add(elements2...)
-				}
-			})
-
-			b.Run("Add1/Batch", func(b *testing.B) {
-				tSet := sets.NewTinySet(elements1...)
-				for i := 0; i < b.N; i++ {
-					tSet.Add(elements2...)
-				}
-			})
-
-			log.Println()
+	t.Run("JSON", func(t *testing.T) {
+		var bs []byte
+		var err error
+		t.Run("Marshal", func(t *testing.T) {
+			bs, err = json.Marshal(testSet)
+			require.NoError(t, err)
+			for _, v := range *testSet {
+				require.Contains(t, string(bs), v)
+			}
 		})
-	}
-}
-
-func Benchmark_TinySet_Add_Single(b *testing.B) {
-	for N := 5; N < 100; N += 25 {
-		b.Run(fmt.Sprintf("Specific_%03d", N), func(b *testing.B) {
-			elements1 := strElements(0, N)
-			elements3 := strElements(N, 4*N)
-
-			log.Println()
-
-			b.Run("Add0/Single", func(b *testing.B) {
-				tSet := sets.NewTinySet(elements1...)
-				for i := 0; i < b.N; i++ {
-					for j := 0; j < len(elements3); j++ {
-						tSet.Add(elements3[j])
-					}
-				}
-			})
-
-			b.Run("Add1/Single", func(b *testing.B) {
-				tSet := sets.NewTinySet(elements1...)
-				for i := 0; i < b.N; i++ {
-					for j := 0; j < len(elements3); j++ {
-						tSet.Add(elements3[j])
-					}
-				}
-			})
-
-			log.Println()
+		t.Run("Unmarshal", func(t *testing.T) {
+			var cycleSet *sets.TinySet[string]
+			err = json.Unmarshal(bs, &cycleSet)
+			require.NoError(t, err)
+			require.Equal(t, testSet, cycleSet)
 		})
-	}
+	})
+
 }
