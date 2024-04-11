@@ -6,7 +6,6 @@ import (
 	"log/slog"
 	"os"
 	"path/filepath"
-	"syscall"
 
 	"github.com/toolvox/utilgo/pkg/errs"
 	lh "github.com/toolvox/utilgo/pkg/logs/handlers"
@@ -110,7 +109,7 @@ func (target FileTarget) GetTarget() io.Writer {
 		name = fmt.Sprintf("%s/%s_%s", dir, timeutil.TimestampNow(), name)
 	}
 	err := os.MkdirAll(dir, 0644)
-	if err != nil && !errs.CheckPathError(err, "mkdir", dir, syscall.ERROR_ALREADY_EXISTS) {
+	if err != nil && !errs.CheckPathError(err, "mkdir", dir, errs.DIR_EXISTS_ERRNO) {
 		panic(err)
 	}
 
