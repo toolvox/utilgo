@@ -17,8 +17,8 @@ import (
 // T2 is the type of elements in the resulting slice.
 func SelectFunc[E1 ~[]T1, E2 []T2, T1, T2 any](slice E1, selector func(T1) T2) E2 {
 	var res E2 = make(E2, len(slice))
-	for i, v := range slice {
-		res[i] = selector(v)
+	for i, element := range slice {
+		res[i] = selector(element)
 	}
 	return res
 }
@@ -29,6 +29,17 @@ func SelectNonZeroFunc[E1 ~[]T1, E2 []T2, T1, T2 any](slice E1, selector func(T1
 	return slices.DeleteFunc(
 		SelectFunc[E1, E2](slice, selector),
 		reflectutil.IsZero)
+}
+
+// TakeFunc returns all the elements of the slice for which pred returns true.
+func TakeFunc[E ~[]T, T any](slice E, pred func(T) bool) E {
+	var result E = make(E, 0, len(slice))
+	for _, element := range slice {
+		if pred(element) {
+			result = append(result, element)
+		}
+	}
+	return slices.Clip(result)
 }
 
 // Prepend inserts the items before the slice.
@@ -65,12 +76,12 @@ func Interleave[E ~[]T, T any](slice E, element T, step int) E {
 	return slice
 }
 
-// IndexFuncs returns the first index i satisfying f(s[i]) for any f in fs, or nil if none do.
+// IndexFuncs returns the first index i satisfying f(s[i]) for any f in funcs, or nil if none do.
 func IndexFuncs[E ~[]T, T any](slice E, funcs ...func(T) bool) []int {
 	var indices []int
 	for i := range slice {
-		for _, f := range funcs {
-			if f(slice[i]) {
+		for _, fun := range funcs {
+			if fun(slice[i]) {
 				indices = append(indices, i)
 				break
 			}

@@ -41,6 +41,54 @@ func TestSelectNonZero(t *testing.T) {
 	}
 }
 
+func TestTakeFunc(t *testing.T) {
+	tests := []struct {
+		name      string
+		slice     []int
+		predicate func(int) bool
+		want      []int
+	}{
+		{
+			name:      "empty slice",
+			slice:     []int{},
+			predicate: func(x int) bool { return x%2 == 0 },
+			want:      []int{},
+		},
+		{
+			name:      "no elements satisfy predicate",
+			slice:     []int{1, 3, 5},
+			predicate: func(x int) bool { return x%2 == 0 },
+			want:      []int{},
+		},
+		{
+			name:      "all elements satisfy predicate",
+			slice:     []int{2, 4, 6},
+			predicate: func(x int) bool { return x%2 == 0 },
+			want:      []int{2, 4, 6},
+		},
+		{
+			name:      "some elements satisfy predicate",
+			slice:     []int{1, 2, 3, 4, 5},
+			predicate: func(x int) bool { return x%2 == 0 },
+			want:      []int{2, 4},
+		},
+		{
+			name:      "complex predicate",
+			slice:     []int{10, 15, 20, 25},
+			predicate: func(x int) bool { return x > 15 },
+			want:      []int{20, 25},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := sliceutil.TakeFunc(tt.slice, tt.predicate); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("TakeFunc() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 var N = 1000
 
 func Benchmark_Sliceutil_Prepend(b *testing.B) {
