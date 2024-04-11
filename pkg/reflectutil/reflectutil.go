@@ -88,7 +88,7 @@ func IsZero[T any](v T) bool {
 		return rv.IsNil() || rv.IsZero()
 
 	case reflect.UnsafePointer:
-		panic("case reflect.UnsafePointer")
+		return rv.IsNil() || rv.IsZero()
 
 	default:
 		panic("unknown")

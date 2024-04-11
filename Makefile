@@ -1,14 +1,14 @@
 .SILENT:
-.PHONY: godoc diff dump cover count install install. gen
+.PHONY: default godoc diff dump cover count install
 
 TEST=./test
-
 COVERFILE = $(TEST)/cover.out
 
+default: cover count
+	
 godoc:
 	start "http://localhost:6060" ; \
 	godoc -http=:6060 -play -index 
-
 
 diff:
 	(git diff --cached | tee diff) | clip ; \

@@ -5,6 +5,7 @@
         "codump",
         "flagutil",
         "fsutil",
+        "httputils",
         "Indentf",
         "kvps",
         "maputil",
