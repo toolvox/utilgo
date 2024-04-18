@@ -3,9 +3,9 @@ package stringutil_test
 import (
 	"testing"
 
-	"github.com/toolvox/utilgo/pkg/stringutil"
-
 	"github.com/stretchr/testify/require"
+
+	"github.com/toolvox/utilgo/pkg/stringutil"
 )
 
 func Test_Indent(t *testing.T) {

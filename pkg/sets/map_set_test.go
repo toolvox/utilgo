@@ -6,10 +6,11 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
+	"gopkg.in/yaml.v3"
+
 	"github.com/toolvox/utilgo/pkg/sets"
 	"github.com/toolvox/utilgo/test"
 	test_sets "github.com/toolvox/utilgo/test/sets_test"
-	"gopkg.in/yaml.v3"
 )
 
 // func Benchmark_Contains(b *testing.B) {

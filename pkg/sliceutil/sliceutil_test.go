@@ -6,10 +6,10 @@ import (
 	"slices"
 	"testing"
 
+	"github.com/stretchr/testify/require"
+
 	"github.com/toolvox/utilgo/pkg/reflectutil"
 	"github.com/toolvox/utilgo/pkg/sliceutil"
-
-	"github.com/stretchr/testify/require"
 )
 
 func TestSelect(t *testing.T) {

@@ -6,8 +6,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/toolvox/utilgo/pkg/sliceutil"
 	"gopkg.in/yaml.v3"
+
+	"github.com/toolvox/utilgo/pkg/sliceutil"
 )
 
 // TinySet represents a set of elements of type C using a slice for storage.

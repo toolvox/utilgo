@@ -8,9 +8,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/toolvox/utilgo/pkg/serialization/yaml"
-
 	"github.com/toolvox/utilgo/pkg/errs"
+	"github.com/toolvox/utilgo/pkg/serialization/yaml"
 )
 
 type demoSubObject struct {

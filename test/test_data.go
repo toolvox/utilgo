@@ -41,6 +41,7 @@ type TestDataFor[A any] struct {
 func (d TestDataFor[A]) Element(i int) A {
 	return d.ElementFunc(i)
 }
+
 // TypedTestConstructor is an interface for creating new instances of a type.
 //
 // Usage:
@@ -53,7 +54,7 @@ func (d TestDataFor[A]) Element(i int) A {
 //
 // Definition:
 type TypedTestConstructor[A any] interface {
-	New() A 
+	New() A
 }
 
 // TestConstructorFor provides a concrete implementation of TypedTestConstructor.
@@ -64,7 +65,7 @@ type TypedTestConstructor[A any] interface {
 //
 // Definition:
 type TestConstructorFor[A any] struct {
-	NewFunc func() A 
+	NewFunc func() A
 }
 
 // New calls NewFunc to create and return a new instance of A.

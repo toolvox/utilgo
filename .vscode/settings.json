@@ -1,23 +1,8 @@
 {
     "cSpell.words": [
-        "cmds",
-        "cmdutil",
-        "codump",
-        "flagutil",
-        "fsutil",
-        "httputils",
-        "Indentf",
-        "kvps",
-        "maputil",
-        "mathutil",
-        "randutil",
-        "reflectutil",
-        "sliceutil",
-        "stringutil",
-        "timeutil",
+        "fsys",
         "tmpls",
         "tmplz",
-        "utilgo",
-        "Wrapf"
+        "Κόσμος"
     ]
 }
