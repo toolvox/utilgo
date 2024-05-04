@@ -7,11 +7,11 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/toolvox/utilgo/api/sets"
+	"github.com/toolvox/utilgo/api"
 	"github.com/toolvox/utilgo/test"
 )
 
-func Run_Test_Set[S sets.BasicSet[C], C comparable](t *testing.T, ctor test.TestConstructorFor[S], data test.TypedTestData[C], maxN int) {
+func Run_Test_Set[S api.BasicSet[C], C comparable](t *testing.T, ctor test.TestConstructorFor[S], data test.TypedTestData[C], maxN int) {
 	t.Run("BasicSet", func(t *testing.T) {
 		t.Run("Len|Add", func(t *testing.T) {
 			must := require.New(t)

@@ -1,4 +1,4 @@
-package mathutil
+package api
 
 type Number interface {
 	Integer | FloatingPoint

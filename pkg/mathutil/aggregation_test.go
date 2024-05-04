@@ -5,16 +5,17 @@ import (
 
 	"github.com/stretchr/testify/require"
 
+	"github.com/toolvox/utilgo/api"
 	"github.com/toolvox/utilgo/pkg/mathutil"
 )
 
-type testCase[N mathutil.Number] struct {
+type testCase[N api.Number] struct {
 	name   string
 	values []N
 	want   N
 }
 
-func runTestCases[N mathutil.Number](t *testing.T, tests []testCase[N], aggKey mathutil.AggregatorKey) {
+func runTestCases[N api.Number](t *testing.T, tests []testCase[N], aggKey mathutil.AggregatorKey) {
 	t.Run(string(aggKey), func(t *testing.T) {
 		agg := mathutil.GetAggregator[N](aggKey)
 		for _, tt := range tests {

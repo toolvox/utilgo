@@ -1,4 +1,4 @@
-package sets
+package api
 
 // BasicSet is an interface for a basic implementation of a set of comparables.
 type BasicSet[C comparable] interface {
