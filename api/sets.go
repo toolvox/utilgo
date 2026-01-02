@@ -18,3 +18,18 @@ type BasicSet[C comparable] interface {
 	// Remove any existing elements from the set.
 	Remove(elements ...C)
 }
+
+// ElementSet is an interface for a complete implementation of a set of comparables.
+type ElementSet[C comparable] interface {
+	BasicSet[C]
+
+	Union(other ElementSet[C]) ElementSet[C]
+	Intersection(other ElementSet[C]) ElementSet[C]
+	Difference(other ElementSet[C]) ElementSet[C]
+
+	ThreeWay(other ElementSet[C]) [3]ElementSet[C]
+
+	UnionWith(elements ...C) ElementSet[C]
+	IntersectionWith(elements ...C) ElementSet[C]
+	DifferenceWith(elements ...C) ElementSet[C]
+}

@@ -4,7 +4,15 @@ package fsutil
 import (
 	"io/fs"
 	"path/filepath"
+	"strings"
 )
+
+func Split(file string) (dir string, name string, ext string) {
+	dir = filepath.Dir(file)
+	ext = filepath.Ext(file)
+	name = strings.TrimSuffix(filepath.Base(file), ext)
+	return
+}
 
 func ListFS(fsys fs.FS, root, glob string) ([]string, error) {
 	var result []string

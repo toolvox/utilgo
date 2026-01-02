@@ -23,11 +23,4 @@ cover:
 
 count: 
 	countula -ignore ".gitignore" -exclude "**zz_**,.git,*.sum,*.out,*.mod,test/cover.out,LICENSE,lines" -ignore-prefix "//" > lines
-
-install.codump:
-	cd cmd/codump ; \
-	go install
-
-install.countula:
-	cd cmd/countula ; \
-	go install
+ 

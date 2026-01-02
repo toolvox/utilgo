@@ -139,8 +139,8 @@ func (tinySet TinySet[C]) DifferenceWith(elements ...C) TinySet[C] {
 }
 
 // MarshalJSON converts the [TinySet] to a JSON array.
-func (tinySet TinySet[T]) MarshalJSON() ([]byte, error) {
-	slice := make([]T, 0, len(tinySet))
+func (tinySet TinySet[C]) MarshalJSON() ([]byte, error) {
+	slice := make([]C, 0, len(tinySet))
 	for _, key := range tinySet {
 		slice = append(slice, key)
 	}
@@ -149,8 +149,8 @@ func (tinySet TinySet[T]) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON converts the JSON []byte to a [TinySet].
-func (tinySet *TinySet[T]) UnmarshalJSON(data []byte) error {
-	var slice []T
+func (tinySet *TinySet[C]) UnmarshalJSON(data []byte) error {
+	var slice []C
 	if err := json.Unmarshal(data, &slice); err != nil {
 		return err
 	}
@@ -162,8 +162,8 @@ func (tinySet *TinySet[T]) UnmarshalJSON(data []byte) error {
 }
 
 // MarshalYAML converts the [TinySet] to a YAML array.
-func (tinySet TinySet[T]) MarshalYAML() (interface{}, error) {
-	slice := make([]T, 0, len(tinySet))
+func (tinySet TinySet[C]) MarshalYAML() (interface{}, error) {
+	slice := make([]C, 0, len(tinySet))
 	for _, key := range tinySet {
 		slice = append(slice, key)
 	}
@@ -171,14 +171,14 @@ func (tinySet TinySet[T]) MarshalYAML() (interface{}, error) {
 }
 
 // UnmarshalYAML converts the YAML [yaml.Node] (representing a YAML list) to a [TinySet].
-func (tinySet *TinySet[T]) UnmarshalYAML(value *yaml.Node) error {
-	var slice []T
+func (tinySet *TinySet[C]) UnmarshalYAML(value *yaml.Node) error {
+	var slice []C
 	err := value.Decode(&slice)
 	if err != nil {
 		return err
 	}
 	if *tinySet == nil {
-		n := NewTinySet[T](slice...)
+		n := NewTinySet[C](slice...)
 		*tinySet = *n
 	} else {
 		tinySet.Add(slice...)

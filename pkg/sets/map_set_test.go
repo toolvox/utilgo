@@ -10,57 +10,7 @@ import (
 
 	"github.com/toolvox/utilgo/pkg/sets"
 	"github.com/toolvox/utilgo/test"
-	test_sets "github.com/toolvox/utilgo/test/sets_test"
 )
-
-// func Benchmark_Contains(b *testing.B) {
-// 	for n := 1; n <= 10_000_000; n *= 10 {
-// 		b.Run(fmt.Sprintf("%8d", n), func(b *testing.B) {
-// 			testSet := sets.NewSet(0)
-// 			items := []int{}
-// 			for i := range n {
-// 				testSet.Add(i + 1)
-// 				items = append(items, i+1)
-// 			}
-// 			b.Run("one_item", func(b *testing.B) {
-// 				b.Run("1", func(b *testing.B) {
-// 					for i := 0; i < b.N; i++ {
-// 						testSet.Contains2(i)
-// 					}
-// 				})
-// 				b.Run("2", func(b *testing.B) {
-// 					for i := 0; i < b.N; i++ {
-// 						testSet.Contains(i)
-// 					}
-// 				})
-// 			})
-// 			b.Run("5_item", func(b *testing.B) {
-// 				b.Run("1", func(b *testing.B) {
-// 					for i := 0; i < b.N; i++ {
-// 						testSet.Contains2(i-2, i-1, i, i+1, i+2)
-// 					}
-// 				})
-// 				b.Run("2", func(b *testing.B) {
-// 					for i := 0; i < b.N; i++ {
-// 						testSet.Contains(i-2, i-1, i, i+1, i+2)
-// 					}
-// 				})
-// 			})
-// 			b.Run("n/2_item", func(b *testing.B) {
-// 				b.Run("1", func(b *testing.B) {
-// 					for i := 0; i < b.N; i++ {
-// 						testSet.Contains2(items[n/2:]...)
-// 					}
-// 				})
-// 				b.Run("2", func(b *testing.B) {
-// 					for i := 0; i < b.N; i++ {
-// 						testSet.Contains(items[n/2:]...)
-// 					}
-// 				})
-// 			})
-// 		})
-// 	}
-// }
 
 func Test_Set(t *testing.T) {
 	t.Run("int", func(t *testing.T) {
@@ -68,7 +18,7 @@ func Test_Set(t *testing.T) {
 			testSet := sets.NewSet(0, 1, 2, 3, 1, 3, 5)
 			require.True(t, testSet.Contains(1, 2, 3, 5))
 		})
-		test_sets.Run_Test_Set(t,
+		Run_Test_Set(t,
 			test.TestConstructorFor[sets.Set[int]]{
 				NewFunc: func() sets.Set[int] {
 					return sets.NewSet[int]()
@@ -85,7 +35,7 @@ func Test_Set(t *testing.T) {
 			testSet := sets.NewSet("0", "1", "2", "3", "1", "3", "5")
 			require.True(t, testSet.Contains("1", "2", "3", "5"))
 		})
-		test_sets.Run_Test_Set(t,
+		Run_Test_Set(t,
 			test.TestConstructorFor[sets.Set[string]]{
 				NewFunc: func() sets.Set[string] {
 					return sets.NewSet[string]()

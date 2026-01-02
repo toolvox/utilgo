@@ -20,13 +20,19 @@ func (v Point2) Offset(x, y int) Point2 {
 	v[1] += y
 	return v
 }
+func (v Point2) ScaleF(scale float32) Point2 {
+	v[0] = int(float32(v[0]) * scale)
+	v[1] = int(float32(v[1]) * scale)
+	return v
+}
 
-func (v Point3) X() int         { return v[0] }
-func (v Point3) Y() int         { return v[1] }
-func (v Point3) Z() int         { return v[2] }
-func (v Point3) Point2() Point2 { return Point2{v[0], v[1]} }
-func (v Point3) Point3() Point3 { return v }
-func (v Point3) Point4() Point4 { return Point4{v[0], v[1], v[2]} }
+func (v Point3) X() int               { return v[0] }
+func (v Point3) Y() int               { return v[1] }
+func (v Point3) Z() int               { return v[2] }
+func (v Point3) XYZ() (int, int, int) { return v[0], v[1], v[2] }
+func (v Point3) Point2() Point2       { return Point2{v[0], v[1]} }
+func (v Point3) Point3() Point3       { return v }
+func (v Point3) Point4() Point4       { return Point4{v[0], v[1], v[2]} }
 func (v Point3) OffsetPt(o Point3) Point3 {
 	v[0] += o[0]
 	v[1] += o[1]
@@ -37,6 +43,12 @@ func (v Point3) Offset(x, y, z int) Point3 {
 	v[0] += x
 	v[1] += y
 	v[2] += z
+	return v
+}
+func (v Point3) ScaleF(scale float32) Point3 {
+	v[0] = int(float32(v[0]) * scale)
+	v[1] = int(float32(v[1]) * scale)
+	v[2] = int(float32(v[2]) * scale)
 	return v
 }
 

@@ -1,8 +1,6 @@
 package api
 
-type Number interface {
-	Integer | FloatingPoint
-}
+type Number interface{ Integer | FloatingPoint }
 
 type Integer interface {
 	SignedInteger | UnsignedInteger
@@ -16,6 +14,4 @@ type UnsignedInteger interface {
 	~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64 | ~uintptr
 }
 
-type FloatingPoint interface {
-	~float32 | ~float64
-}
+type FloatingPoint interface{ ~float32 | ~float64 }

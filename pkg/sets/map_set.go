@@ -166,8 +166,8 @@ func (set Set[C]) ThreeWay(other Set[C]) [3]Set[C] {
 }
 
 // MarshalJSON converts the [Set] to a JSON array.
-func (set Set[T]) MarshalJSON() ([]byte, error) {
-	slice := make([]T, 0, len(set))
+func (set Set[C]) MarshalJSON() ([]byte, error) {
+	slice := make([]C, 0, len(set))
 	for key := range set {
 		slice = append(slice, key)
 	}
@@ -176,8 +176,8 @@ func (set Set[T]) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON converts the JSON []byte to a [Set].
-func (set *Set[T]) UnmarshalJSON(data []byte) error {
-	var slice []T
+func (set *Set[C]) UnmarshalJSON(data []byte) error {
+	var slice []C
 	if err := json.Unmarshal(data, &slice); err != nil {
 		return err
 	}
@@ -187,8 +187,8 @@ func (set *Set[T]) UnmarshalJSON(data []byte) error {
 }
 
 // MarshalYAML converts the [Set] to a YAML array.
-func (set Set[T]) MarshalYAML() (interface{}, error) {
-	slice := make([]T, 0, len(set))
+func (set Set[C]) MarshalYAML() (interface{}, error) {
+	slice := make([]C, 0, len(set))
 	for key := range set {
 		slice = append(slice, key)
 	}
@@ -196,14 +196,14 @@ func (set Set[T]) MarshalYAML() (interface{}, error) {
 }
 
 // UnmarshalYAML converts the YAML [yaml.Node] (representing a YAML list) to a [Set].
-func (set *Set[T]) UnmarshalYAML(value *yaml.Node) error {
-	var slice []T
+func (set *Set[C]) UnmarshalYAML(value *yaml.Node) error {
+	var slice []C
 	err := value.Decode(&slice)
 	if err != nil {
 		return err
 	}
 	if *set == nil {
-		n := NewSet[T](slice...)
+		n := NewSet(slice...)
 		*set = n
 	} else {
 		set.Add(slice...)

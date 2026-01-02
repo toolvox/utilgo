@@ -11,7 +11,6 @@ import (
 
 	"github.com/toolvox/utilgo/pkg/sets"
 	"github.com/toolvox/utilgo/test"
-	test_sets "github.com/toolvox/utilgo/test/sets_test"
 )
 
 func Test_TinySet(t *testing.T) {
@@ -20,7 +19,7 @@ func Test_TinySet(t *testing.T) {
 			testSet := sets.NewTinySet(0, 1, 2, 3, 1, 3, 5)
 			require.True(t, testSet.Contains(1, 2, 3, 5))
 		})
-		test_sets.Run_Test_Set(t,
+		Run_Test_Set(t,
 			test.TestConstructorFor[*sets.TinySet[int]]{
 				NewFunc: func() *sets.TinySet[int] {
 					return sets.NewTinySet[int]()
@@ -37,7 +36,7 @@ func Test_TinySet(t *testing.T) {
 			testSet := sets.NewTinySet("0", "1", "2", "3", "1", "3", "5")
 			require.True(t, testSet.Contains("1", "2", "3", "5"))
 		})
-		test_sets.Run_Test_Set(t,
+		Run_Test_Set(t,
 			test.TestConstructorFor[*sets.TinySet[string]]{
 				NewFunc: func() *sets.TinySet[string] {
 					return sets.NewTinySet[string]()
